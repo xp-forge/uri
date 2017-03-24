@@ -27,6 +27,8 @@ See https://tools.ietf.org/html/rfc3986
 
 ### Parsing from a string
 
+The most common case will include constructing URIs from a given input string.
+
 ```php
 use util\URI;
 
@@ -43,7 +45,9 @@ $uri->query();      // "sort=name"
 $uri->fragment();   // "top"
 ```
 
-### Creating or modifying using the fluent interface:
+### Creating or modifying
+
+URI instances are immutable. However, a fluent interface is offered via `with()` and `using()`. Both return fresh instances.
 
 ```php
 use util\URI;
@@ -60,14 +64,16 @@ $copy= $uri->using()->path('cc@example.com')->create();
 
 ### Resolving URIs
 
+Given `http://localhost/home/` as the base URL, you can resolve links in its context using the `resolve()` method:
+
 ```php
 use util\URI;
 
 $uri= new URI('http://localhost/home/');
-$uri->resolve('/index.html');       // http://localhost/index.html
-$uri->resolve('index.html');        // http://localhost/home/index.html
-$uri->resolve('?sort=name');        // http://localhost/home/?sort=name
-$uri->resolve('#top');              // http://localhost/home/#top
-$uri->resolve('//example.com');     // http://example.com
-$uri->resolve('https://localhost'); // https://localhost
+$uri->resolve('/index.html');       // util.URL<http://localhost/index.html>
+$uri->resolve('index.html');        // util.URL<http://localhost/home/index.html>
+$uri->resolve('?sort=name');        // util.URL<http://localhost/home/?sort=name>
+$uri->resolve('#top');              // util.URL<http://localhost/home/#top>
+$uri->resolve('//example.com');     // util.URL<http://example.com>
+$uri->resolve('https://localhost'); // util.URL<https://localhost>
 ```
