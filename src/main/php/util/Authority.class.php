@@ -60,8 +60,8 @@ class Authority implements Value {
     return new self(
       $matches[5],
       isset($matches[7]) ? (int)$matches[7] : null,
-      $matches[2] === '' ? null : rawurldecode($matches[2]),
-      $matches[4] === '' ? null : new Secret(rawurldecode($matches[4]))
+      empty($matches[2]) ? null : rawurldecode($matches[2]),
+      empty($matches[4]) ? null : new Secret(rawurldecode($matches[4]))
     );
   }
 
