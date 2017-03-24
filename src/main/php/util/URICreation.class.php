@@ -137,10 +137,10 @@ class URICreation {
     // If host, port, user or password was set directly, merge
     if (null !== $this->host || null !== $this->port || null !== $this->user || null !== $this->password) {
       $this->authority= new Authority(
-        $this->host ?? ($this->authority ? $this->authority->host() : null),
-        $this->port ?? ($this->authority ? $this->authority->port() : null),
-        $this->user ?? ($this->authority ? $this->authority->user() : null),
-        $this->password ?? ($this->authority ? $this->authority->password() : null)
+        isset($this->host) ? $this->host : ($this->authority ? $this->authority->host() : null),
+        isset($this->port) ? $this->port : ($this->authority ? $this->authority->port() : null),
+        isset($this->user) ? $this->user : ($this->authority ? $this->authority->user() : null),
+        isset($this->password) ? $this->password : ($this->authority ? $this->authority->password() : null)
       );
     }
 

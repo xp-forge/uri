@@ -1,7 +1,9 @@
 <?php namespace util\unittest;
 
-use util\{URI, Authority};
-use lang\{Primitive, FormatException};
+use util\URI;
+use util\Authority;
+use lang\Primitive;
+use lang\FormatException;
 
 class URITest extends \unittest\TestCase {
 

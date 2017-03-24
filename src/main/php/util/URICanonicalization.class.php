@@ -93,9 +93,10 @@ class URICanonicalization {
     ;
 
     if ($authority= $uri->authority()) {
+      $port= isset(self::$defaults[$scheme]) ? self::$defaults[$scheme] : null;
       $creation->authority(new Authority(
         strtolower($authority->host()),
-        $authority->port() === (self::$defaults[$scheme] ?? null) ? null : $authority->port(),
+        $authority->port() === $port ? null : $authority->port(),
         $authority->user(),
         $authority->password()
       ));

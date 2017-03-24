@@ -1,6 +1,7 @@
 <?php namespace util\unittest;
 
-use util\{URI, URICanonicalization};
+use util\URI;
+use util\URICanonicalization;
 
 class URICanonicalizationTest extends \unittest\TestCase {
 

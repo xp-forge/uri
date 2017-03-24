@@ -1,6 +1,7 @@
 <?php namespace util;
 
-use lang\{Value, FormatException};
+use lang\Value;
+use lang\FormatException;
 
 /**
  * A Uniform Resource Identifier (URI) is a compact sequence of
@@ -124,8 +125,9 @@ class URI implements Value {
    *   ->create();
    * ;
    * ```
+   * @return util.URICreation
    */
-  public static function with(): URICreation { return new URICreation(); }
+  public static function with() { return new URICreation(); }
 
   /**
    * Use a fluent interface to create a new URI based on this URI
@@ -133,8 +135,10 @@ class URI implements Value {
    * ```php
    * $uri= (new URI('http://example.com'))->using()->scheme('https')->create();
    * ```
+   *
+   * @return util.URICreation
    */
-  public function using(): URICreation { return new URICreation($this); }
+  public function using() { return new URICreation($this); }
 
   /** @return bool */
   public function isRelative() { return null === $this->scheme; }
@@ -233,6 +237,11 @@ class URI implements Value {
    * @return int
    */
   public function compareTo($value) {
-    return $value instanceof self ? $this->asString(true) <=> $value->asString(true) : 1;
+    if ($value instanceof self) {
+      $r= strcmp($this->asString(true), $value->asString(true));
+      return 0 === $r ? 0 : ($r < 0 ? -1 : 1);
+    } else {
+      return 1;
+    }
   }
 }

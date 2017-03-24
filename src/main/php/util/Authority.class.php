@@ -1,6 +1,7 @@
 <?php namespace util;
 
-use lang\{Value, FormatException};
+use lang\Value;
+use lang\FormatException;
 
 /**
  * Many URI schemes include a hierarchical element for a naming authority.
@@ -116,6 +117,11 @@ class Authority implements Value {
    * @return int
    */
   public function compareTo($value) {
-    return $value instanceof self ? $this->asString(true) <=> $value->asString(true) : 1;
+    if ($value instanceof self) {
+      $r= strcmp($this->asString(true), $value->asString(true));
+      return 0 === $r ? 0 : ($r < 0 ? -1 : 1);
+    } else {
+      return 1;
+    }
   }
 }
