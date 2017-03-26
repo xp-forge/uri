@@ -66,18 +66,18 @@ $copy= $uri->using()->path('cc@example.com')->create();
 
 ### Resolving URIs
 
-Given `http://localhost/home/` as the base URL, you can resolve links in its context using the `resolve()` method:
+Given `http://localhost/home/` as the base URI, you can resolve links in its context using the `resolve()` method:
 
 ```php
 use util\URI;
 
 $uri= new URI('http://localhost/home/');
-$uri->resolve('/index.html');       // util.URL<http://localhost/index.html>
-$uri->resolve('index.html');        // util.URL<http://localhost/home/index.html>
-$uri->resolve('?sort=name');        // util.URL<http://localhost/home/?sort=name>
-$uri->resolve('#top');              // util.URL<http://localhost/home/#top>
-$uri->resolve('//example.com');     // util.URL<http://example.com>
-$uri->resolve('https://localhost'); // util.URL<https://localhost>
+$uri->resolve('/index.html');       // util.URI<http://localhost/index.html>
+$uri->resolve('index.html');        // util.URI<http://localhost/home/index.html>
+$uri->resolve('?sort=name');        // util.URI<http://localhost/home/?sort=name>
+$uri->resolve('#top');              // util.URI<http://localhost/home/#top>
+$uri->resolve('//example.com');     // util.URI<http://example.com>
+$uri->resolve('https://localhost'); // util.URI<https://localhost>
 ```
 
 ### Filesystem
