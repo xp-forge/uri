@@ -22,7 +22,23 @@ class URIParameters implements Value, \IteratorAggregate {
   }
 
   /**
-   * Creates an instance from either a URI or a string
+   * Encodes parameters to a string
+   *
+   * @param  [:var] $pairs
+   * @return string
+   */
+  public static function encode($pairs) {
+    if (empty($pairs)) return '';
+
+    $query= '';
+    foreach ($pairs as $key => $value) {
+      $query.= self::pair($key, $value);
+    }
+    return substr($query, 1);
+  }
+
+  /**
+   * Decodes a string into pairs
    *
    * @param  string $query
    * @param  int $nesting Maximum nesting depth for arrays
@@ -124,16 +140,6 @@ class URIParameters implements Value, \IteratorAggregate {
       $query.= '&'.rawurlencode($key).$offset.'='.rawurlencode($value);
     }
     return $query;
-  }
-
-  public static function encode($pairs) {
-    if (empty($pairs)) return '';
-
-    $query= '';
-    foreach ($pairs as $key => $value) {
-      $query.= self::pair($key, $value);
-    }
-    return substr($query, 1);
   }
 
   /** @return string */
