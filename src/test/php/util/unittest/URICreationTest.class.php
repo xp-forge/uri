@@ -132,4 +132,15 @@ class URICreationTest extends \unittest\TestCase {
       (new Creation())->scheme('mailto')->path('test@example.com')->params($argument)->create()
     );
   }
+
+  #[@test, @values([
+  #  ['http://localhost'],
+  #  [new URI('http://localhost')]
+  #])]
+  public function param_is_encoded($uri) {
+    $this->assertEquals(
+      new URI('https://example.com/login?service=http%3A%2F%2Flocalhost'),
+      (new URI('https://example.com/login'))->using()->param('service', $uri)->create()
+    );
+  }
 }
