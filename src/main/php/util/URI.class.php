@@ -124,7 +124,7 @@ class URI implements Value {
   /**
    * Creates a file URI. Handles Windows UNC paths.
    *
-   * @param  string $path
+   * @param  string|io.Path $path
    * @return self
    */
   public static function file($path) {
