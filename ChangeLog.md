@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Added default decoding for path, query and fragment; it can be
+  bypassed by passing `false` to the respective accessor methods.
+  (@thekid)
+
 ## 0.3.0 / 2017-03-26
 
 * Reorganized packages: Only `URI` and `Authority` classes stay in

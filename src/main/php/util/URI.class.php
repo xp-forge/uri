@@ -169,14 +169,35 @@ class URI implements Value {
   /** @return util.Secret */
   public function password() { return $this->authority ? $this->authority->password() : null; }
 
-  /** @return string */
-  public function path() { return $this->path; }
+  /**
+   * Gets path, decoding it by default
+   *
+   * @param  bool $decode
+   * @return string
+   */
+  public function path($decode= true) {
+    return null === $this->path || !$decode ? $this->path : rawurldecode($this->path);
+  }
 
-  /** @return string */
-  public function query() { return $this->query; }
+  /**
+   * Gets query, decoding it by default
+   *
+   * @param  bool $decode
+   * @return string
+   */
+  public function query($decode= true) {
+    return null === $this->query || !$decode ? $this->query : rawurldecode($this->query);
+  }
 
-  /** @return string */
-  public function fragment() { return $this->fragment; }
+  /**
+   * Gets fragment, decoding it by default
+   *
+   * @param  bool $decode
+   * @return string
+   */
+  public function fragment($decode= true) {
+    return null === $this->fragment || !$decode ? $this->fragment : rawurldecode($this->fragment);
+  }
 
   /** @return self */
   public function canonicalize() { return (new Canonicalization())->canonicalize($this); }

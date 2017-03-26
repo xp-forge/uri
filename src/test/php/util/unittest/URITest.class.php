@@ -121,6 +121,16 @@ class URITest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function raw_path() {
+    $this->assertEquals('/a/b%2Fc/home+de.html', (new URI('http://example.com/a/b%2Fc/home+de.html'))->path(false));
+  }
+
+  #[@test]
+  public function urlencoded_path() {
+    $this->assertEquals('/a/b/c/home+de.html', (new URI('http://example.com/a/b%2Fc/home+de.html'))->path());
+  }
+
+  #[@test]
   public function file_url_path() {
     $this->assertEquals('/usr/local/etc/php.ini', (new URI('file:///usr/local/etc/php.ini'))->path());
   }
@@ -184,8 +194,18 @@ class URITest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function urlencoded_query() {
+    $this->assertEquals('a=/&c=d+e', (new URI('http://example.com?a=%2F&c=d+e'))->query());
+  }
+
+  #[@test]
+  public function raw_query() {
+    $this->assertEquals('a=%2F&c=d+e', (new URI('http://example.com?a=%2F&c=d+e'))->query(false));
+  }
+
+  #[@test]
   public function query_for_opaque_uri() {
-    $this->assertEquals('Subject=Hello%20World', (new URI('mailto:fred@example.com?Subject=Hello%20World'))->query());
+    $this->assertEquals('Subject=Hello World', (new URI('mailto:fred@example.com?Subject=Hello%20World'))->query());
   }
 
   #[@test]
@@ -207,6 +227,17 @@ class URITest extends \unittest\TestCase {
   public function with_fragment($uri) {
     $this->assertEquals('top', (new URI($uri))->fragment());
   }
+
+  #[@test]
+  public function urlencoded_fragment() {
+    $this->assertEquals('a=/&c=d+e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment());
+  }
+
+  #[@test]
+  public function raw_fragment() {
+    $this->assertEquals('a=%2F&c=d+e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment(false));
+  }
+
 
   #[@test, @values([
   #  'http://example.com',
