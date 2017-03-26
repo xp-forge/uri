@@ -152,7 +152,7 @@ class URIParameters implements Value, \IteratorAggregate {
 
   /** @return string */
   public function toString() {
-    return nameof($this).'<'.$this->__toString().'>';
+    return nameof($this).'<'.self::encode($this->pairs).'>';
   }
 
   /** @return string */
