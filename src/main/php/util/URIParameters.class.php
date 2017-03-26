@@ -7,8 +7,8 @@ use util\Objects;
 /**
  * URI Parameters
  *
- * @see   http://php.net/rawurldecode
- * @see   http://php.net/rawurlencode
+ * @see   http://php.net/urldecode
+ * @see   http://php.net/urlencode
  * @test  xp://util.unittest.URIParametersTest
  */
 class URIParameters implements Value, \IteratorAggregate {
@@ -57,7 +57,7 @@ class URIParameters implements Value, \IteratorAggregate {
       sscanf($pair, "%[^=]=%[^\r]", $key, $value);
       if (null === $key) continue;
 
-      $key= rawurldecode($key);
+      $key= urldecode($key);
       if (substr_count($key, '[') !== substr_count($key, ']')) {
         throw new FormatException('Unbalanced [] in query string');
       }
@@ -83,9 +83,9 @@ class URIParameters implements Value, \IteratorAggregate {
             throw new FormatException('Maximum nesting level ('.$nesting.') exceeded');
           }
         } while ($start= strpos($key, '[', $offset));
-        $ptr= rawurldecode($value);
+        $ptr= urldecode($value);
       } else {
-        $pairs[$key]= rawurldecode($value);
+        $pairs[$key]= urldecode($value);
       }
     }
     return $pairs;
@@ -126,7 +126,7 @@ class URIParameters implements Value, \IteratorAggregate {
   private static function pair($key, $value, $offset= '') {
     $query= '';
     if ('' === $value) {
-      $query.= '&'.rawurlencode($key).$offset;
+      $query.= '&'.urlencode($key).$offset;
     } else if (is_array($value)) {
       if (0 === key($value)) {
         $offset.= '[]';
@@ -135,11 +135,11 @@ class URIParameters implements Value, \IteratorAggregate {
         }
       } else {
         foreach ($value as $k => $v) {
-          $query.= self::pair($key, $v, $offset.'['.rawurlencode($k).']');
+          $query.= self::pair($key, $v, $offset.'['.urlencode($k).']');
         }
       }
     } else {
-      $query.= '&'.rawurlencode($key).$offset.'='.rawurlencode($value);
+      $query.= '&'.urlencode($key).$offset.'='.urlencode($value);
     }
     return $query;
   }
