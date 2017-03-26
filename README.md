@@ -33,16 +33,18 @@ The most common case will include constructing URIs from a given input string.
 use util\URI;
 
 $uri= new URI('https://user:password@localhost:8443/index?sort=name#top');
-$uri->isOpaque();   // false - it's a hierarchical URI
-$uri->scheme();     // "https"
-$uri->authority();  // util.Authority("localhost", 8443, "user", util.Secret("password"))
-$uri->host();       // "localhost"
-$uri->port();       // 8443
-$uri->user();       // "user"
-$uri->password();   // util.Secret("password")
-$uri->path();       // "index"
-$uri->query();      // "sort=name"
-$uri->fragment();   // "top"
+$uri->isOpaque();     // false - it's a hierarchical URI
+$uri->scheme();       // "https"
+$uri->authority();    // util.Authority("localhost", 8443, "user", util.Secret("password"))
+$uri->host();         // "localhost"
+$uri->port();         // 8443
+$uri->user();         // "user"
+$uri->password();     // util.Secret("password")
+$uri->path();         // "index"
+$uri->query();        // "sort=name"
+$uri->params();       // util.URIParameters("sort=name")
+$uri->param('sort');  // "name"
+$uri->fragment();     // "top"
 ```
 
 ### Creating or modifying
@@ -56,10 +58,10 @@ $uri= URI::with()->scheme('mailto')->path('timm@example.com')->query('Subject=He
 $uri->isOpaque();   // true - it's an opaque URI
 $uri->scheme();     // "mailto"
 $uri->authority();  // null
-(string)$uri;       // mailto:timm@example.com?Subject=Hello
+(string)$uri;       // "mailto:timm@example.com?Subject=Hello"
 
 $copy= $uri->using()->path('cc@example.com')->create();
-(string)$copy;      // mailto:cc@example.com?Subject=Hello
+(string)$copy;      // "mailto:cc@example.com?Subject=Hello"
 ```
 
 ### Resolving URIs
