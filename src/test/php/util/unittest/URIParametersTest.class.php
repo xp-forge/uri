@@ -110,7 +110,7 @@ class URIParametersTest extends \unittest\TestCase {
   }
 
   #[@test, @expect(FormatException::class)]
-  public function nested_array() {
-    new URIParameters('a'.str_repeat('[]', ini_get('max_input_nesting_level') + 1));
+  public function deeply_nested_array() {
+    new URIParameters('a'.str_repeat('[]', (ini_get('max_input_nesting_level') ?: 64) + 1));
   }
 }
