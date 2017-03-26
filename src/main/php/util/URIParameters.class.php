@@ -7,6 +7,8 @@ use util\Objects;
 /**
  * URI Parameters
  *
+ * @see   http://php.net/rawurldecode
+ * @see   http://php.net/rawurlencode
  * @test  xp://util.unittest.URIParametersTest
  */
 class URIParameters implements Value, \IteratorAggregate {
