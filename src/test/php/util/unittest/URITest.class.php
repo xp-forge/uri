@@ -4,6 +4,8 @@ use util\URI;
 use util\Authority;
 use lang\Primitive;
 use lang\FormatException;
+use lang\IllegalStateException;
+use io\Path;
 
 class URITest extends \unittest\TestCase {
 
@@ -472,11 +474,36 @@ class URITest extends \unittest\TestCase {
 
   #[@test]
   public function windows_unc_name() {
-    $this->assertEquals('file://remote', (string)URI::file('\\\\remote'));
+    $this->assertEquals('file://remote', (string)URI::file('//remote'));
   }
 
   #[@test]
   public function windows_unc_path() {
     $this->assertEquals('file://remote/php/php.ini', (string)URI::file('\\\\remote\\php\\php.ini'));
+  }
+
+  #[@test]
+  public function path_instance() {
+    $this->assertEquals('file://.', (string)URI::file(new Path('.')));
+  }
+
+  #[@test, @values([
+  #  '/usr/local/etc/php.ini',
+  #  'c:/php/php.ini',
+  #  '//remote',
+  #  '//remote/php/php.ini',
+  #  '../dir/file.txt',
+  #  '.'
+  #])]
+  public function as_path($path) {
+    $this->assertEquals(new Path($path), URI::file($path)->asPath());
+  }
+
+  #[@test, @expect(IllegalStateException::class), @values([
+  #  'http://example.com',
+  #  'tel:+1-816-555-1212'
+  #])]
+  public function not_representable_as_path($uri) {
+    (new URI($uri))->asPath();
   }
 }

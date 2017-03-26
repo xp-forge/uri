@@ -3,6 +3,8 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Added `asPath()` method to convert URIs to file paths
+  (@thekid)
 * Added `URI::file()` method to create URIs from file paths
   (@thekid)
 * Added default encoding for path, query and fragment to the 

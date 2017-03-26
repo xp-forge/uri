@@ -2,9 +2,11 @@
 
 use lang\Value;
 use lang\FormatException;
+use lang\IllegalStateException;
 use util\uri\Creation;
 use util\uri\Canonicalization;
 use util\uri\Parameters;
+use io\Path;
 
 /**
  * A Uniform Resource Identifier (URI) is a compact sequence of
@@ -125,20 +127,16 @@ class URI implements Value {
    * @return self
    */
   public static function file($path) {
-    if (0 === strncmp($path, '\\\\', 2)) {
-      $p= strcspn($path, '\\', 3);
-      $authority= substr($path, 2, $p - 2);
-      $path= substr($path, $p);
+    $path= str_replace('\\', '/', $path);
+    if (0 === strncmp($path, '//', 2)) {
+      $p= strcspn($path, '/', 3);
+      $authority= substr($path, 2, $p + 1);
+      $path= substr($path, $p + 3);
     } else {
       $authority= Authority::$EMPTY;
     }
 
-    return (new Creation())
-      ->scheme('file')
-      ->authority($authority)
-      ->path(str_replace(DIRECTORY_SEPARATOR, '/', $path))
-      ->create()
-    ;
+    return (new Creation())->scheme('file')->authority($authority)->path($path)->create();
   }
 
   /**
@@ -263,6 +261,24 @@ class URI implements Value {
       $result= clone $this;
       $result->resolve0($uri->authority, $uri->path, $uri->query, $uri->fragment);
       return $result;
+    }
+  }
+
+  /**
+   * Converts this URI to a local path
+   * 
+   * @return io.Path
+   * @throws lang.IllegalStateException
+   */
+  public function asPath() {
+    if ('file' !== $this->scheme && null !== $this->scheme) {
+      throw new IllegalStateException('Cannot represent URIs with '.$this->scheme.' as paths');
+    }
+
+    if ($this->authority) {
+      return new Path('\\\\'.$this->authority, $this->path);
+    } else {
+      return new Path($this->path);
     }
   }
 
