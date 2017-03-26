@@ -20,6 +20,7 @@ class URICreation {
   private $port      = null;
   private $user      = null;
   private $password  = null;
+  private $params    = null;
 
   /**
    * Initialize creation instance
@@ -119,6 +120,34 @@ class URICreation {
   public function query($value) { $this->query= $value; return $this; }
 
   /**
+   * Sets params (use NULL to remove)
+   *
+   * @param  [:var] $value
+   * @return self
+   */
+  public function params($value) { $this->params= $value; return $this; }
+
+  /**
+   * Sets a given named parameter to a value (use NULL to remove)
+   *
+   * @param  string $name
+   * @param  string $value
+   * @return self
+   */
+  public function param($name, $value) {
+    if (null === $this->params) {
+      $this->params= URIParameters::decode($this->query);
+    }
+
+    if (null === $value) {
+      unset($this->params[$name]);
+    } else {
+      $this->params[$name]= $value;
+    }
+    return $this;
+  }
+
+  /**
    * Sets fragment (use NULL to remove)
    *
    * @param  string $value
@@ -142,6 +171,11 @@ class URICreation {
         isset($this->user) ? $this->user : ($this->authority ? $this->authority->user() : null),
         isset($this->password) ? $this->password : ($this->authority ? $this->authority->password() : null)
       );
+    }
+
+    // If parameters were given
+    if (null !== $this->params) {
+      $this->query= URIParameters::encode($this->params);
     }
 
     // Sanity check

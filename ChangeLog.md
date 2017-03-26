@@ -3,6 +3,9 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Implemented write access to parameters via `params()` and `param()`
+  methods on the `URICreation` class
+  (@thekid)
 * Implemented read access to parameters via `params()` and `param()`
   methods on the `URI` class
   (@thekid)

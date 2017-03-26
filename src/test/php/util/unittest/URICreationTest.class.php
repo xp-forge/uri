@@ -96,4 +96,20 @@ class URICreationTest extends \unittest\TestCase {
       (new URICreation(new URI('http://example.com')))->scheme('https')->port(443)->create()
     );
   }
+
+  #[@test]
+  public function param() {
+    $this->assertEquals(
+      new URI('mailto:test@example.com?Subject=%C3%9Cber'),
+      (new URICreation())->scheme('mailto')->path('test@example.com')->param('Subject', 'Über')->create()
+    );
+  }
+
+  #[@test]
+  public function params() {
+    $this->assertEquals(
+      new URI('mailto:test@example.com?Subject=%C3%9Cber'),
+      (new URICreation())->scheme('mailto')->path('test@example.com')->params(['Subject' => 'Über'])->create()
+    );
+  }
 }
