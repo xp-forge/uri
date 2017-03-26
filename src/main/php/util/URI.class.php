@@ -129,6 +129,7 @@ class URI implements Value {
    *   ->create();
    * ;
    * ```
+   *
    * @return util.uri.Creation
    */
   public static function with() { return new Creation(); }
@@ -239,19 +240,13 @@ class URI implements Value {
   }
 
   /** @return string */
-  public function __toString() {
-    return $this->asString(true);
-  }
+  public function __toString() { return $this->asString(true); }
 
   /** @return string */
-  public function toString() {
-    return nameof($this).'<'.$this->asString(false).'>';
-  }
+  public function toString() { return nameof($this).'<'.$this->asString(false).'>'; }
 
   /** @return string */
-  public function hashCode() {
-    return md5($this->asString(true));
-  }
+  public function hashCode() { return md5($this->asString(true)); }
 
   /**
    * Compare to another value
