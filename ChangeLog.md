@@ -3,6 +3,8 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 0.3.0 / 2017-03-26
+
 * Reorganized packages: Only `URI` and `Authority` classes stay in
   the top-level `util` package, utility classes are moved to the new
   `util.uri` package.
