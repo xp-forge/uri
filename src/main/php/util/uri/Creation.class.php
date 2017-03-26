@@ -1,5 +1,8 @@
-<?php namespace util;
+<?php namespace util\uri;
 
+use util\URI;
+use util\Authority;
+use util\Secret;
 use lang\IllegalStateException;
 
 /**
@@ -9,13 +12,12 @@ use lang\IllegalStateException;
  * @see   xp://util.URI#with
  * @test  xp://net.xp_framework.unittest.util.URICreationTest
  */
-class URICreation {
-  public $scheme    = null;
-  public $authority = null;
-  public $path      = null;
-  public $query     = null;
-  public $fragment  = null;
-
+class Creation {
+  public $scheme     = null;
+  public $authority  = null;
+  public $path       = null;
+  public $query      = null;
+  public $fragment   = null;
   private $host      = null;
   private $port      = null;
   private $user      = null;
@@ -122,11 +124,11 @@ class URICreation {
   /**
    * Sets params (use NULL to remove)
    *
-   * @param  [:var]|util.URIParameters $value
+   * @param  [:var]|util.uri.Parameters $value
    * @return self
    */
   public function params($value) { 
-    $this->params= $value instanceof URIParameters ? $value->pairs() : $value;
+    $this->params= $value instanceof Parameters ? $value->pairs() : $value;
     return $this;
   }
 
@@ -139,7 +141,7 @@ class URICreation {
    */
   public function param($name, $value) {
     if (null === $this->params) {
-      $this->params= URIParameters::decode($this->query);
+      $this->params= Parameters::decode($this->query);
     }
 
     if (null === $value) {
@@ -178,7 +180,7 @@ class URICreation {
 
     // If parameters were given
     if (null !== $this->params) {
-      $this->query= URIParameters::encode($this->params);
+      $this->query= Parameters::encode($this->params);
     }
 
     // Sanity check

@@ -1,9 +1,14 @@
-<?php namespace util;
+<?php namespace util\uri;
+
+use util\URI;
+use util\Authority;
 
 /**
+ * Canonicalizes URIs
+ *
  * @test  xp://net.xp_framework.unittest.util.URICanonicalizationTest
  */
-class URICanonicalization {
+class Canonicalization {
   private static $defaults= [
     'http'  => 80,
     'https' => 443,
@@ -85,7 +90,7 @@ class URICanonicalization {
   public function canonicalize(URI $uri) {
     sscanf($uri->scheme(), '%[^+]', $scheme);
 
-    $creation= (new URICreation($uri))
+    $creation= (new Creation($uri))
       ->scheme(strtolower($scheme))
       ->path($this->normalize($uri->path(), '/'))
       ->query($this->normalize($uri->query(), null))

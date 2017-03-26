@@ -1,8 +1,8 @@
 <?php namespace util\unittest;
 
 use util\URI;
-use util\URICreation;
-use util\URIParameters;
+use util\uri\Creation;
+use util\uri\Parameters;
 use util\Authority;
 use util\Secret;
 
@@ -10,19 +10,19 @@ class URICreationTest extends \unittest\TestCase {
 
   #[@test]
   public function can_create() {
-    new URICreation();
+    new Creation();
   }
 
   #[@test]
   public function can_create_with_uri() {
-    new URICreation(new URI('http://example.com'));
+    new Creation(new URI('http://example.com'));
   }
 
   #[@test]
   public function opaque_uri() {
     $this->assertEquals(
       new URI('mailto:test@example.com'),
-      (new URICreation())->scheme('mailto')->path('test@example.com')->create()
+      (new Creation())->scheme('mailto')->path('test@example.com')->create()
     );
   }
 
@@ -30,7 +30,7 @@ class URICreationTest extends \unittest\TestCase {
   public function hierarchical_uri($authority) {
     $this->assertEquals(
       new URI('ssh://test@example.com:22'),
-      (new URICreation())->scheme('ssh')->authority($authority)->create()
+      (new Creation())->scheme('ssh')->authority($authority)->create()
     );
   }
 
@@ -38,7 +38,7 @@ class URICreationTest extends \unittest\TestCase {
   public function file_uri_requires_empty_authority() {
     $this->assertEquals(
       new URI('file:///usr/local/etc/php.ini'),
-      (new URICreation())->scheme('file')->authority(Authority::$EMPTY)->path('/usr/local/etc/php.ini')->create()
+      (new Creation())->scheme('file')->authority(Authority::$EMPTY)->path('/usr/local/etc/php.ini')->create()
     );
   }
 
@@ -46,7 +46,7 @@ class URICreationTest extends \unittest\TestCase {
   public function host() {
     $this->assertEquals(
       new URI('http://example.com'),
-      (new URICreation())->scheme('http')->host('example.com')->create()
+      (new Creation())->scheme('http')->host('example.com')->create()
     );
   }
 
@@ -54,7 +54,7 @@ class URICreationTest extends \unittest\TestCase {
   public function port() {
     $this->assertEquals(
       new URI('http://example.com:80'),
-      (new URICreation())->scheme('http')->host('example.com')->port(80)->create()
+      (new Creation())->scheme('http')->host('example.com')->port(80)->create()
     );
   }
 
@@ -62,7 +62,7 @@ class URICreationTest extends \unittest\TestCase {
   public function user() {
     $this->assertEquals(
       new URI('http://test@example.com'),
-      (new URICreation())->scheme('http')->host('example.com')->user('test')->create()
+      (new Creation())->scheme('http')->host('example.com')->user('test')->create()
     );
   }
 
@@ -70,7 +70,7 @@ class URICreationTest extends \unittest\TestCase {
   public function password($password) {
     $this->assertEquals(
       new URI('http://test:secret@example.com'),
-      (new URICreation())->scheme('http')->host('example.com')->user('test')->password($password)->create()
+      (new Creation())->scheme('http')->host('example.com')->user('test')->password($password)->create()
     );
   }
 
@@ -78,7 +78,7 @@ class URICreationTest extends \unittest\TestCase {
   public function query() {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=Hello'),
-      (new URICreation())->scheme('mailto')->path('test@example.com')->query('Subject=Hello')->create()
+      (new Creation())->scheme('mailto')->path('test@example.com')->query('Subject=Hello')->create()
     );
   }
 
@@ -86,7 +86,7 @@ class URICreationTest extends \unittest\TestCase {
   public function fragment() {
     $this->assertEquals(
       new URI('http://example.com#home'),
-      (new URICreation())->scheme('http')->host('example.com')->fragment('home')->create()
+      (new Creation())->scheme('http')->host('example.com')->fragment('home')->create()
     );
   }
 
@@ -94,7 +94,7 @@ class URICreationTest extends \unittest\TestCase {
   public function modify_uri_given_to_constructor() {
     $this->assertEquals(
       new URI('https://example.com:443'),
-      (new URICreation(new URI('http://example.com')))->scheme('https')->port(443)->create()
+      (new Creation(new URI('http://example.com')))->scheme('https')->port(443)->create()
     );
   }
 
@@ -102,18 +102,18 @@ class URICreationTest extends \unittest\TestCase {
   public function param() {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
-      (new URICreation())->scheme('mailto')->path('test@example.com')->param('Subject', 'Über')->create()
+      (new Creation())->scheme('mailto')->path('test@example.com')->param('Subject', 'Über')->create()
     );
   }
 
   #[@test, @values([
   #  [['Subject' => 'Über']],
-  #  [new URIParameters('Subject=%C3%9Cber')]
+  #  [new Parameters('Subject=%C3%9Cber')]
   #])]
   public function params($argument) {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
-      (new URICreation())->scheme('mailto')->path('test@example.com')->params($argument)->create()
+      (new Creation())->scheme('mailto')->path('test@example.com')->params($argument)->create()
     );
   }
 }

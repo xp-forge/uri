@@ -3,6 +3,11 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Reorganized packages: Only `URI` and `Authority` classes stay in
+  the top-level `util` package, utility classes are moved to the new
+  `util.uri` package.
+  (@thekid)
+
 ## 0.2.0 / 2017-03-26
 
 * Implemented write access to parameters via `params()` and `param()`

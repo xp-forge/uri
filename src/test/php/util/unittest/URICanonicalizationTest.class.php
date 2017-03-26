@@ -1,7 +1,7 @@
 <?php namespace util\unittest;
 
 use util\URI;
-use util\URICanonicalization;
+use util\uri\Canonicalization;
 
 class URICanonicalizationTest extends \unittest\TestCase {
 
@@ -13,7 +13,7 @@ class URICanonicalizationTest extends \unittest\TestCase {
    * @throws unittest.AssertionFailedError
    */
   private function assertCanonical($expected, $input) {
-    $this->assertEquals(new URI($expected), (new URICanonicalization())->canonicalize(new URI($input)));
+    $this->assertEquals(new URI($expected), (new Canonicalization())->canonicalize(new URI($input)));
   }
 
   #[@test]

@@ -1,8 +1,9 @@
-<?php namespace util;
+<?php namespace util\uri;
 
+use util\URI;
+use util\Objects;
 use lang\FormatException;
 use lang\Value;
-use util\Objects;
 
 /**
  * URI Parameters
@@ -12,7 +13,7 @@ use util\Objects;
  * @see   https://en.wikipedia.org/wiki/Query_string#URL_encoding
  * @test  xp://util.unittest.URIParametersTest
  */
-class URIParameters implements Value, \IteratorAggregate {
+class Parameters implements Value, \IteratorAggregate {
   private $pairs= [];
 
   /**

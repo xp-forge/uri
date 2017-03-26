@@ -2,6 +2,9 @@
 
 use lang\Value;
 use lang\FormatException;
+use util\uri\Creation;
+use util\uri\Canonicalization;
+use util\uri\Parameters;
 
 /**
  * A Uniform Resource Identifier (URI) is a compact sequence of
@@ -29,15 +32,15 @@ class URI implements Value {
 
   /**
    * Creates a URI instance, either by parsing a string or by using a
-   * given `URICreation` instance, which offers a fluent interface.
+   * given `util.uri.Creation` instance, which offers a fluent interface.
    *
    * @see    https://tools.ietf.org/html/rfc3986#section-1.1.2
-   * @param  string|util.URICreation $base
+   * @param  string|util.uri.Creation $base
    * @param  string $relative Optional relative URI
    * @throws lang.FormatException if string argument cannot be parsed
    */
   public function __construct($base, $relative= null) {
-    if ($base instanceof URICreation) {
+    if ($base instanceof Creation) {
       $this->scheme= $base->scheme;
       $this->authority= $base->authority;
       $this->path= $base->path;
@@ -126,9 +129,9 @@ class URI implements Value {
    *   ->create();
    * ;
    * ```
-   * @return util.URICreation
+   * @return util.uri.Creation
    */
-  public static function with() { return new URICreation(); }
+  public static function with() { return new Creation(); }
 
   /**
    * Use a fluent interface to create a new URI based on this URI
@@ -137,9 +140,9 @@ class URI implements Value {
    * $uri= (new URI('http://example.com'))->using()->scheme('https')->create();
    * ```
    *
-   * @return util.URICreation
+   * @return util.uri.Creation
    */
-  public function using() { return new URICreation($this); }
+  public function using() { return new Creation($this); }
 
   /** @return bool */
   public function isRelative() { return null === $this->scheme; }
@@ -175,12 +178,12 @@ class URI implements Value {
   public function fragment() { return $this->fragment; }
 
   /** @return self */
-  public function canonicalize() { return (new URICanonicalization())->canonicalize($this); }
+  public function canonicalize() { return (new Canonicalization())->canonicalize($this); }
 
-  /** @return util.URIParameters */
+  /** @return util.uri.Parameters */
   public function params() {
     if (null === $this->params) {
-      $this->params= new URIParameters($this->query);
+      $this->params= new Parameters($this->query);
     }
     return $this->params;
   }
