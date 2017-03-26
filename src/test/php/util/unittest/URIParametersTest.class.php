@@ -43,6 +43,11 @@ class URIParametersTest extends \unittest\TestCase {
     $this->assertEquals(['a' => ['']], (new URIParameters($input))->pairs());
   }
 
+  #[@test]
+  public function lowercase_escape_sequences() {
+    $this->assertEquals(['ue' => 'ü'], (new URIParameters('ue=%c3%bc'))->pairs());
+  }
+
   #[@test, @values(['a=b&&c=d', 'a=b&=&c=d'])]
   public function empty_pair_ignored($input) {
     $this->assertEquals(['a' => 'b', 'c' => 'd'], (new URIParameters($input))->pairs());
