@@ -2,6 +2,7 @@
 
 use util\URI;
 use util\URICreation;
+use util\URIParameters;
 use util\Authority;
 use util\Secret;
 
@@ -105,11 +106,14 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
-  public function params() {
+  #[@test, @values([
+  #  [['Subject' => 'Über']],
+  #  [new URIParameters('Subject=%C3%9Cber')]
+  #])]
+  public function params($argument) {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
-      (new URICreation())->scheme('mailto')->path('test@example.com')->params(['Subject' => 'Über'])->create()
+      (new URICreation())->scheme('mailto')->path('test@example.com')->params($argument)->create()
     );
   }
 }

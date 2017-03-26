@@ -122,10 +122,13 @@ class URICreation {
   /**
    * Sets params (use NULL to remove)
    *
-   * @param  [:var] $value
+   * @param  [:var]|util.URIParameters $value
    * @return self
    */
-  public function params($value) { $this->params= $value; return $this; }
+  public function params($value) { 
+    $this->params= $value instanceof URIParameters ? $value->pairs() : $value;
+    return $this;
+  }
 
   /**
    * Sets a given named parameter to a value (use NULL to remove)
