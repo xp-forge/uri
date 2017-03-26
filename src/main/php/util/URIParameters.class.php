@@ -25,6 +25,35 @@ class URIParameters implements Value, \IteratorAggregate {
   }
 
   /**
+   * Creates a string representation of a given pair
+   *
+   * @param  string $key
+   * @param  string $value
+   * @param  string $offset
+   * @return string
+   */
+  private static function pair($key, $value, $offset= '') {
+    $query= '';
+    if ('' === $value) {
+      $query.= '&'.urlencode($key).$offset;
+    } else if (is_array($value)) {
+      if (0 === key($value)) {
+        $offset.= '[]';
+        foreach ($value as $v) {
+          $query.= self::pair($key, $v, $offset);
+        }
+      } else {
+        foreach ($value as $k => $v) {
+          $query.= self::pair($key, $v, $offset.'['.urlencode($k).']');
+        }
+      }
+    } else {
+      $query.= '&'.urlencode($key).$offset.'='.urlencode($value);
+    }
+    return $query;
+  }
+
+  /**
    * Encodes parameters to a string
    *
    * @param  [:var] $pairs
@@ -114,35 +143,6 @@ class URIParameters implements Value, \IteratorAggregate {
     foreach ($this->pairs as $key => $value) {
       yield $key => $value;
     }
-  }
-
-  /**
-   * Creates a string representation of a given pair
-   *
-   * @param  string $key
-   * @param  string $value
-   * @param  string $offset
-   * @return string
-   */
-  private static function pair($key, $value, $offset= '') {
-    $query= '';
-    if ('' === $value) {
-      $query.= '&'.urlencode($key).$offset;
-    } else if (is_array($value)) {
-      if (0 === key($value)) {
-        $offset.= '[]';
-        foreach ($value as $v) {
-          $query.= self::pair($key, $v, $offset);
-        }
-      } else {
-        foreach ($value as $k => $v) {
-          $query.= self::pair($key, $v, $offset.'['.urlencode($k).']');
-        }
-      }
-    } else {
-      $query.= '&'.urlencode($key).$offset.'='.urlencode($value);
-    }
-    return $query;
   }
 
   /** @return string */
