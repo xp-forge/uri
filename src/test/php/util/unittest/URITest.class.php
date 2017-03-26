@@ -398,4 +398,29 @@ class URITest extends \unittest\TestCase {
   public function resolve($uri, $resolve, $result) {
     $this->assertEquals($result, $uri->resolve($resolve));
   }
+
+  #[@test, @values([
+  #  ['http://localhost', []],
+  #  ['http://localhost?a=b', ['a' => 'b']],
+  #  ['http://localhost?a=b&c=d', ['a' => 'b', 'c' => 'd']],
+  #  ['http://localhost?a[]=b&a[]=c', ['a' => ['b', 'c']]]
+  #])]
+  public function params($input, $expected) {
+    $this->assertEquals($expected, (new URI($input))->params()->pairs());
+  }
+
+  #[@test]
+  public function param() {
+    $this->assertEquals('b', (new URI('http://localhost?a=b'))->param('a'));
+  }
+
+  #[@test]
+  public function non_existant_param() {
+    $this->assertEquals(null, (new URI('http://localhost'))->param('a'));
+  }
+
+  #[@test]
+  public function non_existant_param_with_default() {
+    $this->assertEquals('default', (new URI('http://localhost'))->param('a', 'default'));
+  }
 }

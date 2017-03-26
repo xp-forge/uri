@@ -25,6 +25,7 @@ use lang\FormatException;
  */
 class URI implements Value {
   private $scheme, $authority, $path, $query, $fragment;
+  private $params= null;
 
   /**
    * Creates a URI instance, either by parsing a string or by using a
@@ -175,6 +176,25 @@ class URI implements Value {
 
   /** @return self */
   public function canonicalize() { return (new URICanonicalization())->canonicalize($this); }
+
+  /** @return util.URIParameters */
+  public function params() {
+    if (null === $this->params) {
+      $this->params= new URIParameters($this->query);
+    }
+    return $this->params;
+  }
+
+  /**
+   * Returns a given named parameter or a default value
+   *
+   * @param  string $name
+   * @param  var $default
+   * @param  var
+   */
+  public function param($name, $default= null) {
+    return $this->params()->named($name, $default);
+  }
 
   /**
    * Resolves another URI against this URI. If the given URI is absolute,
