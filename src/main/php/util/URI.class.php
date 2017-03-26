@@ -273,7 +273,7 @@ class URI implements Value {
    */
   public function asPath() {
     if ('file' !== $this->scheme && null !== $this->scheme) {
-      throw new IllegalStateException('Cannot represent URIs with '.$this->scheme.' as paths');
+      throw new IllegalStateException('Cannot represent '.$this->scheme.' URIs as paths');
     }
 
     if ($remote= $this->authority->host()) {
