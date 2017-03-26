@@ -13,6 +13,8 @@ class URIParametersTest extends \unittest\TestCase {
     yield ['%C3%BC=ue', ['ü' => 'ue']];
     yield ['a=b&c=d', ['a' => 'b', 'c' => 'd']];
     yield ['a.b=c', ['a.b' => 'c']];
+    yield ['a_b=c', ['a_b' => 'c']];
+    yield ['a-b=c', ['a-b' => 'c']];
     yield ['a[]=1', ['a' => ['1']]];
     yield ['a[]=1+2', ['a' => ['1 2']]];
     yield ['a[]=1&a[]=2', ['a' => ['1', '2']]];

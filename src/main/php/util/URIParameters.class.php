@@ -9,6 +9,7 @@ use util\Objects;
  *
  * @see   http://php.net/urldecode
  * @see   http://php.net/urlencode
+ * @see   https://en.wikipedia.org/wiki/Query_string#URL_encoding
  * @test  xp://util.unittest.URIParametersTest
  */
 class URIParameters implements Value, \IteratorAggregate {
