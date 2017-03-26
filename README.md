@@ -54,7 +54,7 @@ URI instances are immutable. However, a fluent interface is offered via `with()`
 ```php
 use util\URI;
 
-$uri= URI::with()->scheme('mailto')->path('timm@example.com')->query('Subject=Hello')->create();
+$uri= URI::with()->scheme('mailto')->path('timm@example.com')->param('Subject', 'Hello')->create();
 $uri->isOpaque();   // true - it's an opaque URI
 $uri->scheme();     // "mailto"
 $uri->authority();  // null
