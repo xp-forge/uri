@@ -106,20 +106,51 @@ class Creation {
   }
 
   /**
-   * Sets path (use NULL to remove)
+   * Encode URI component
    *
-   * @param  string $value
-   * @return self
+   * @param   string $input
+   * @param   string $mask
+   * @param   string $encode
+   * @return  string
    */
-  public function path($value) { $this->path= $value; return $this; }
+  private function escape($input, $mask, $encode) {
+    $mask= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_~'.$mask;
+    $l= strlen($input);
+    $s= '';
+    $o= 0;
+    do {
+      $p= strspn($input, $mask, $o);
+      $s.= substr($input, $o, $p);
+      $o+= $p;
+      if ($o >= $l) break;
+      $s.= $encode($input{$o});
+    } while ($o++);
+    return $s;
+  }
 
   /**
-   * Sets query (use NULL to remove)
+   * Sets path (use NULL to remove), encoding by default
    *
    * @param  string $value
+   * @param  bool $encode
    * @return self
    */
-  public function query($value) { $this->query= $value; return $this; }
+  public function path($value, $encode= true) {
+    $this->path= null === $value || !$encode ? $value : $this->escape($value, '@+/:', 'rawurlencode');
+    return $this;
+  }
+
+  /**
+   * Sets query (use NULL to remove), encoding by default
+   *
+   * @param  string $value
+   * @param  bool $encode
+   * @return self
+   */
+  public function query($value, $encode= true) {
+    $this->query= null === $value || !$encode ? $value : $this->escape($value, '&=', 'urlencode');
+    return $this;
+  }
 
   /**
    * Sets params (use NULL to remove)
@@ -153,12 +184,16 @@ class Creation {
   }
 
   /**
-   * Sets fragment (use NULL to remove)
+   * Sets fragment (use NULL to remove), encoding by default
    *
    * @param  string $value
+   * @param  bool $encode
    * @return self
    */
-  public function fragment($value) { $this->fragment= $value; return $this; }
+  public function fragment($value, $encode= true) {
+    $this->fragment= null === $value || !$encode ? $value : $this->escape($value, '&=', 'urlencode');
+    return $this;
+  }
 
   /**
    * Creates the URI

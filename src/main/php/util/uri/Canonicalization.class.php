@@ -92,9 +92,9 @@ class Canonicalization {
 
     $creation= (new Creation($uri))
       ->scheme(strtolower($scheme))
-      ->path($this->normalize($uri->path(false), '/'))
-      ->query($this->normalize($uri->query(false), null))
-      ->fragment($this->normalize($uri->fragment(false), null))
+      ->path($this->normalize($uri->path(false), '/'), false)
+      ->query($this->normalize($uri->query(false), null), false)
+      ->fragment($this->normalize($uri->fragment(false), null), false)
     ;
 
     if ($authority= $uri->authority()) {

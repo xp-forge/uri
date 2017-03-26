@@ -83,10 +83,26 @@ class URICreationTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function query_encoding() {
+    $this->assertEquals(
+      new URI('mailto:test@example.com?Subject=Hello+World'),
+      (new Creation())->scheme('mailto')->path('test@example.com')->query('Subject=Hello World')->create()
+    );
+  }
+
+  #[@test]
   public function fragment() {
     $this->assertEquals(
       new URI('http://example.com#home'),
       (new Creation())->scheme('http')->host('example.com')->fragment('home')->create()
+    );
+  }
+
+  #[@test]
+  public function fragment_encoding() {
+    $this->assertEquals(
+      new URI('http://example.com#to+top'),
+      (new Creation())->scheme('http')->host('example.com')->fragment('to top')->create()
     );
   }
 

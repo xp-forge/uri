@@ -3,6 +3,9 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Added default encoding for path, query and fragment to the 
+  fluent interface returned by `using()` and `with()`.
+  (@thekid)
 * Added default decoding for path, query and fragment; it can be
   bypassed by passing `false` to the respective accessor methods.
   (@thekid)
