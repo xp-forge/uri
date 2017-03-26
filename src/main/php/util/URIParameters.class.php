@@ -10,7 +10,6 @@ use util\Objects;
  * @test  xp://util.unittest.URIParametersTest
  */
 class URIParameters implements Value, \IteratorAggregate {
-  private $nesting;
   private $pairs= [];
 
   /**
@@ -24,7 +23,7 @@ class URIParameters implements Value, \IteratorAggregate {
     $query= $arg instanceof URI ? $arg->query() : $arg;
     if ('' === $query) return;
 
-    $this->nesting= $nesting ?: (ini_get('max_input_nesting_level') ?: 64);
+    $nesting || $nesting= ini_get('max_input_nesting_level') ?: 64;
     foreach (explode('&', $query) as $pair) {
       $key= $value= null;
       sscanf($pair, "%[^=]=%[^\r]", $key, $value);
@@ -52,8 +51,8 @@ class URIParameters implements Value, \IteratorAggregate {
             $ptr= &$ptr[substr($key, $start + 1, $end - $start - 1)];
           }
           $offset= $end + 1;
-          if (++$level > $this->nesting) {
-            throw new FormatException('Maximum nesting level ('.$this->nesting.') exceeded');
+          if (++$level > $nesting) {
+            throw new FormatException('Maximum nesting level ('.$nesting.') exceeded');
           }
         } while ($start= strpos($key, '[', $offset));
         $ptr= rawurldecode($value);
