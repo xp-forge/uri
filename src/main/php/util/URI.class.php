@@ -26,6 +26,7 @@ use io\Path;
  * URI or a relative reference.
  *
  * @see   https://tools.ietf.org/html/rfc3986
+ * @see   http://stackoverflow.com/questions/1546419/convert-file-path-to-a-file-uri
  * @test  xp://net.xp_framework.unittest.util.URITest
  */
 class URI implements Value {
@@ -266,7 +267,7 @@ class URI implements Value {
 
   /**
    * Converts this URI to a local path
-   * 
+   *
    * @return io.Path
    * @throws lang.IllegalStateException
    */
