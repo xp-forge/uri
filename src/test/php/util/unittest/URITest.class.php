@@ -144,6 +144,11 @@ class URITest extends \unittest\TestCase {
     $this->assertEquals('u:root', (new URI('http://u%3Aroot@example.com'))->user());
   }
 
+  #[@test]
+  public function plus_in_user() {
+    $this->assertEquals('api+de', (new URI('http://api+de@example.com'))->user());
+  }
+
   #[@test, @values([
   #  'http://api:secret@example.com',
   #  'http://api:secret@example.com:8080'
