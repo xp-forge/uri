@@ -186,7 +186,7 @@ class URI implements Value {
    * @return string
    */
   public function query($decode= true) {
-    return null === $this->query || !$decode ? $this->query : rawurldecode($this->query);
+    return null === $this->query || !$decode ? $this->query : urldecode($this->query);
   }
 
   /**
@@ -196,7 +196,7 @@ class URI implements Value {
    * @return string
    */
   public function fragment($decode= true) {
-    return null === $this->fragment || !$decode ? $this->fragment : rawurldecode($this->fragment);
+    return null === $this->fragment || !$decode ? $this->fragment : urldecode($this->fragment);
   }
 
   /** @return self */

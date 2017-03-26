@@ -195,7 +195,7 @@ class URITest extends \unittest\TestCase {
 
   #[@test]
   public function urlencoded_query() {
-    $this->assertEquals('a=/&c=d+e', (new URI('http://example.com?a=%2F&c=d+e'))->query());
+    $this->assertEquals('a=/&c=d e', (new URI('http://example.com?a=%2F&c=d+e'))->query());
   }
 
   #[@test]
@@ -230,7 +230,7 @@ class URITest extends \unittest\TestCase {
 
   #[@test]
   public function urlencoded_fragment() {
-    $this->assertEquals('a=/&c=d+e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment());
+    $this->assertEquals('a=/&c=d e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment());
   }
 
   #[@test]
