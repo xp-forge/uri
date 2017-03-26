@@ -79,3 +79,23 @@ $uri->resolve('#top');              // util.URL<http://localhost/home/#top>
 $uri->resolve('//example.com');     // util.URL<http://example.com>
 $uri->resolve('https://localhost'); // util.URL<https://localhost>
 ```
+
+### Filesystem
+
+URIs can point to filesystem paths. Converting between the two is not trivial - you need to handle Windows UNC paths correctly. The URI class' `file()` and `asPath()` methods take care of this.
+
+```php
+use util\URI;
+
+$uri= URI::file('/etc/php.ini');
+(string)$uri;       // "file:///etc/php.ini"
+
+$uri= new URI('file://c:/Windows');
+$uri->path();       // "C:/Windows"
+$uri->asPath();     // io.Path("C:\Windows")
+
+$uri= new URI('file://share/file.txt');
+$uri->authority();  // util.Authority("share")
+$uri->path();       // "/file.txt"
+$uri->asPath();     // io.Path("\\share\file.txt")
+```
