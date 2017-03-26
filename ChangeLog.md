@@ -3,6 +3,8 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Added `URI::file()` method to create URIs from file paths
+  (@thekid)
 * Added default encoding for path, query and fragment to the 
   fluent interface returned by `using()` and `with()`.
   (@thekid)

@@ -459,4 +459,24 @@ class URITest extends \unittest\TestCase {
   public function non_existant_param_with_default() {
     $this->assertEquals('default', (new URI('http://localhost'))->param('a', 'default'));
   }
+
+  #[@test]
+  public function unix_path() {
+    $this->assertEquals('file:///usr/local/etc/php.ini', (string)URI::file('/usr/local/etc/php.ini'));
+  }
+
+  #[@test]
+  public function windows_path() {
+    $this->assertEquals('file://c:/php/php.ini', (string)URI::file('c:\\php\\php.ini'));
+  }
+
+  #[@test]
+  public function windows_unc_name() {
+    $this->assertEquals('file://remote', (string)URI::file('\\\\remote'));
+  }
+
+  #[@test]
+  public function windows_unc_path() {
+    $this->assertEquals('file://remote/php/php.ini', (string)URI::file('\\\\remote\\php\\php.ini'));
+  }
 }

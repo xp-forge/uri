@@ -119,6 +119,29 @@ class URI implements Value {
   }
 
   /**
+   * Creates a file URI. Handles Windows UNC paths.
+   *
+   * @param  string $path
+   * @return self
+   */
+  public static function file($path) {
+    if (0 === strncmp($path, '\\\\', 2)) {
+      $p= strcspn($path, '\\', 3);
+      $authority= substr($path, 2, $p - 2);
+      $path= substr($path, $p);
+    } else {
+      $authority= Authority::$EMPTY;
+    }
+
+    return (new Creation())
+      ->scheme('file')
+      ->authority($authority)
+      ->path(str_replace(DIRECTORY_SEPARATOR, '/', $path))
+      ->create()
+    ;
+  }
+
+  /**
    * Use a fluent interface to create a URI
    *
    * ```php
