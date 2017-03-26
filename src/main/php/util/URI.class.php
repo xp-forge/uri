@@ -275,8 +275,8 @@ class URI implements Value {
       throw new IllegalStateException('Cannot represent URIs with '.$this->scheme.' as paths');
     }
 
-    if ($this->authority) {
-      return new Path('\\\\'.$this->authority, $this->path);
+    if ($remote= $this->authority->host()) {
+      return new Path('//'.$remote, $this->path);
     } else {
       return new Path($this->path);
     }
