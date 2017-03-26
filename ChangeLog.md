@@ -3,10 +3,15 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 0.5.0 / 2017-03-26
+
 * Added `asPath()` method to convert URIs to file paths
   (@thekid)
 * Added `URI::file()` method to create URIs from file paths
   (@thekid)
+
+## 0.4.0 / 2017-03-26
+
 * Added default encoding for path, query and fragment to the 
   fluent interface returned by `using()` and `with()`.
   (@thekid)
