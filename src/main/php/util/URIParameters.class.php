@@ -24,7 +24,7 @@ class URIParameters implements Value, \IteratorAggregate {
     $query= $arg instanceof URI ? $arg->query() : $arg;
     if ('' === $query) return;
 
-    $this->nesting= $nesting ?: ini_get('max_input_nesting_level');
+    $this->nesting= $nesting ?: (ini_get('max_input_nesting_level') ?: 64);
     foreach (explode('&', $query) as $pair) {
       $key= $value= null;
       sscanf($pair, "%[^=]=%[^\r]", $key, $value);
