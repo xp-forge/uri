@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.0 / 2017-06-04
+
+* Added forward compatibility with XP 9.0.0 - @thekid
+
 ## 0.5.0 / 2017-03-26
 
 * Added `asPath()` method to convert URIs to file paths
