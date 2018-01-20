@@ -3,6 +3,8 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.1.0 / 2018-01-20
+
 * Made it possible to remove port, user and password can be removed by
   passing NULL to the respective methods in `util.uri.Creation`.
   (@thekid)
