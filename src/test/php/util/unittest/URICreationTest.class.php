@@ -59,6 +59,14 @@ class URICreationTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function without_port() {
+    $this->assertEquals(
+      new URI('http://example.com'),
+      (new Creation())->scheme('http')->host('example.com')->port(null)->create()
+    );
+  }
+
+  #[@test]
   public function user() {
     $this->assertEquals(
       new URI('http://test@example.com'),
@@ -142,5 +150,20 @@ class URICreationTest extends \unittest\TestCase {
       new URI('https://example.com/login?service=http%3A%2F%2Flocalhost'),
       (new URI('https://example.com/login'))->using()->param('service', $uri)->create()
     );
+  }
+
+  #[@test]
+  public function remove_port() {
+    $this->assertEquals(null, (new URI('http://example.com:8080'))->using()->port(null)->create()->port());
+  }
+
+  #[@test]
+  public function remove_user() {
+    $this->assertEquals(null, (new URI('http://test@example.com'))->using()->user(null)->create()->user());
+  }
+
+  #[@test]
+  public function remove_password() {
+    $this->assertEquals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
   }
 }

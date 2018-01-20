@@ -18,11 +18,8 @@ class Creation {
   public $path       = null;
   public $query      = null;
   public $fragment   = null;
-  private $host      = null;
-  private $port      = null;
-  private $user      = null;
-  private $password  = null;
   private $params    = null;
+  private $merge     = [];
 
   /**
    * Initialize creation instance
@@ -70,7 +67,7 @@ class Creation {
    * @param  string $value
    * @return self
    */
-  public function host($value) { $this->host= $value; return $this; }
+  public function host($value) { $this->merge['host']= $value; return $this; }
 
   /**
    * Sets port
@@ -78,7 +75,7 @@ class Creation {
    * @param  string $value
    * @return self
    */
-  public function port($value) { $this->port= $value; return $this; }
+  public function port($value) { $this->merge['port']= $value; return $this; }
 
   /**
    * Sets user
@@ -86,7 +83,7 @@ class Creation {
    * @param  string $value
    * @return self
    */
-  public function user($value) { $this->user= $value; return $this; }
+  public function user($value) { $this->merge['user']= $value; return $this; }
 
   /**
    * Sets password
@@ -96,11 +93,11 @@ class Creation {
    */
   public function password($value) {
     if (null === $value) {
-      $this->password= null;
+      $this->merge['password']= null;
     } else if ($value instanceof Secret) {
-      $this->password= $value;
+      $this->merge['password']= $value;
     } else {
-      $this->password= new Secret($value);
+      $this->merge['password']= new Secret($value);
     }
     return $this;
   }
@@ -204,12 +201,12 @@ class Creation {
   public function create() {
 
     // If host, port, user or password was set directly, merge
-    if (null !== $this->host || null !== $this->port || null !== $this->user || null !== $this->password) {
+    if (!empty($this->merge)) {
       $this->authority= new Authority(
-        isset($this->host) ? $this->host : ($this->authority ? $this->authority->host() : null),
-        isset($this->port) ? $this->port : ($this->authority ? $this->authority->port() : null),
-        isset($this->user) ? $this->user : ($this->authority ? $this->authority->user() : null),
-        isset($this->password) ? $this->password : ($this->authority ? $this->authority->password() : null)
+        array_key_exists('host', $this->merge) ? $this->merge['host'] : ($this->authority ? $this->authority->host() : null),
+        array_key_exists('port', $this->merge) ? $this->merge['port'] : ($this->authority ? $this->authority->port() : null),
+        array_key_exists('user', $this->merge) ? $this->merge['user'] : ($this->authority ? $this->authority->user() : null),
+        array_key_exists('password', $this->merge) ? $this->merge['password'] : ($this->authority ? $this->authority->password() : null)
       );
     }
 
