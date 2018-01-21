@@ -3,7 +3,7 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
-## 2.0.0 / 2018-01-21
+## 1.2.0 / 2018-01-21
 
 * Changed canonicalization to also remove multiple forward slashes
   inside URI paths. See issue #2
