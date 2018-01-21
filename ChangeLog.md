@@ -3,6 +3,19 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.0.0 / 2018-01-21
+
+* Changed canonicalization to also remove multiple forward slashes
+  inside URI paths. See issue #2
+  (@thekid)
+* Exposed encoding normalization via `Canonicalization::ofSegment()`
+  (@thekid)
+* Exposed path canonicalization via `Canonicalization::ofPath()`
+  (@thekid)
+* Fixed canonicalization to not remove dot sequences inside query and
+  fragment
+  (@thekid)
+
 ## 1.1.0 / 2018-01-20
 
 * Made it possible to remove port, user and password can be removed by

@@ -75,8 +75,42 @@ class URICanonicalizationTest extends \unittest\TestCase {
   #  ['http://localhost/a/../b', 'http://localhost/b'],
   #  ['http://localhost/a/./.././b', 'http://localhost/b'],
   #  ['http://localhost/a/b/c/./../../d', 'http://localhost/a/d'],
+  #  ['http://localhost/.test', 'http://localhost/.test'],
+  #  ['http://localhost/..test', 'http://localhost/..test'],
+  #  ['http://localhost/./.test', 'http://localhost/.test'],
   #])]
   public function removing_dot_sequences_from_path($input, $expected) {
     $this->assertCanonical($expected, $input);
+  }
+
+  #[@test]
+  public function dot_sequences_not_removed_from_query() {
+    $this->assertCanonical('http://localhost/?file=./../etc/passwd', 'http://localhost/?file=./../etc/passwd');
+  }
+
+  #[@test]
+  public function dot_sequences_not_removed_from_fragment() {
+    $this->assertCanonical('http://localhost/#file=./../etc/passwd', 'http://localhost/#file=./../etc/passwd');
+  }
+
+  #[@test, @values([
+  #  ['http://localhost//', 'http://localhost/'],
+  #  ['http://localhost///', 'http://localhost/'],
+  #  ['http://localhost/a//b', 'http://localhost/a/b'],
+  #  ['http://localhost/a///b', 'http://localhost/a/b'],
+  #])]
+  public function replacing_multiple_slashes_with_single_slashes_in_path($input, $expected) {
+    $this->assertCanonical($expected, $input);
+  }
+
+  #[@test]
+  public function file_triple_slash_will_be_left_intact() {
+    $this->assertCanonical('file:///usr/bin', 'file:///usr/bin');
+  }
+
+  /** @see https://superuser.com/questions/267844/full-uri-to-a-file-on-another-machine-in-our-local-network */
+  #[@test]
+  public function unc_path_in_file_form() {
+    $this->assertCanonical('file://192.168.10.20/f$/MyDir/SubDir/text.doc', 'file://192.168.10.20/f$/MyDir/SubDir/text.doc');
   }
 }

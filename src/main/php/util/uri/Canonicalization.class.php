@@ -7,6 +7,7 @@ use util\Authority;
  * Canonicalizes URIs
  *
  * @test  xp://net.xp_framework.unittest.util.URICanonicalizationTest
+ * @see   https://en.wikipedia.org/wiki/URL_normalization
  */
 class Canonicalization {
   private static $defaults= [
@@ -14,11 +15,17 @@ class Canonicalization {
     'https' => 443,
   ];
 
-  private function normalize($segment, $default) {
-    if (null === $segment) return $default;
+  /**
+   * Normalize escape sequences
+   *
+   * @see    https://tools.ietf.org/html/rfc3986#section-2.3
+   * @param  string $segment
+   * @return string
+   */
+  public static function ofSegment($segment) {
+    if (null === $segment) return $segment;
 
-    // Normalize escape sequences - https://tools.ietf.org/html/rfc3986#section-2.3
-    $segment= preg_replace_callback(
+    return preg_replace_callback(
       '/%([0-9a-zA-Z]{2})/',
       function($match) {
         $code= hexdec($match[1]);
@@ -35,22 +42,35 @@ class Canonicalization {
       },
       $segment
     );
+  }
 
-    // Remove Dot Segments - https://tools.ietf.org/html/rfc3986#section-5.2.4
+  /**
+   * Path canonicalization normalizes escape sequences, replaces multiple
+   * consecutive forward slashes by a single one and removes dot segments.
+   *
+   * @see    xp://util.uri.Canonicalization::normalize
+   * @see    https://tools.ietf.org/html/rfc3986#section-5.2.4
+   * @param  string $path
+   * @return string
+   */
+  public static function ofPath($path) {
+    if (null === $path) return '/';
+
+    $path= preg_replace('![/]+!', '/', self::ofSegment($path));
     $output= '';
-    while ('' !== $segment) {
+    while ('' !== $path) {
 
       // A. If the input begins with a prefix of "../" or "./", then remove
       // that prefix from the input buffer; otherwise,
-      if (preg_match('!^(\.\./|\./)!', $segment)) {
-        $segment= preg_replace('!^(\.\./|\./)!', '', $segment);
+      if (preg_match('!^(\.\./|\./)!', $path)) {
+        $path= preg_replace('!^(\.\./|\./)!', '', $path);
       }
 
       // B. if the input buffer begins with a prefix of "/./" or "/.",
       // where "." is a complete path segment, then replace that
       // prefix with "/" in the input buffer; otherwise,
-      else if (preg_match('!^(/\./|/\.$)!', $segment, $matches)) {
-        $segment= preg_replace('!^'.$matches[1].'!', '/', $segment);
+      else if (preg_match('!^(/\./|/\.$)!', $path, $matches)) {
+        $path= preg_replace('!^'.$matches[1].'!', '/', $path);
       }
 
       // C. if the input buffer begins with a prefix of "/../" or "/..",
@@ -58,23 +78,23 @@ class Canonicalization {
       // prefix with "/" in the input buffer and remove the last
       // segment and its preceding "/" (if any) from the output
       // buffer; otherwise,
-      else if (preg_match('!^(/\.\./|/\.\.$)!', $segment, $matches)) {
-        $segment= preg_replace('!^'.preg_quote($matches[1], '!').'!', '/', $segment);
+      else if (preg_match('!^(/\.\./|/\.\.$)!', $path, $matches)) {
+        $path= preg_replace('!^'.preg_quote($matches[1], '!').'!', '/', $path);
         $output= preg_replace('!/([^/]+)$!', '', $output);
       }
 
       // D. if the input buffer consists only of "." or "..", then remove
       // that from the input buffer; otherwise,
-      else if (preg_match('!^(\.|\.\.)$!', $segment)) {
-        $segment= preg_replace('!^(\.|\.\.)$!', '', $segment);
+      else if (preg_match('!^(\.|\.\.)$!', $path)) {
+        $path= preg_replace('!^(\.|\.\.)$!', '', $path);
       }
 
       // E. move the first path segment in the input buffer to the end of
       // the output buffer, including the initial "/" character (if
       // any) and any subsequent characters up to, but not including,
       // the next "/" character or the end of the input buffer.
-      else if (preg_match('!(/*[^/]*)!', $segment, $matches)) {
-        $segment= preg_replace('/^'.preg_quote($matches[1], '/').'/', '', $segment, 1);
+      else if (preg_match('!(/*[^/]*)!', $path, $matches)) {
+        $path= preg_replace('/^'.preg_quote($matches[1], '/').'/', '', $path, 1);
         $output.= $matches[1];
       }
     }
@@ -92,9 +112,9 @@ class Canonicalization {
 
     $creation= (new Creation($uri))
       ->scheme(strtolower($scheme))
-      ->path($this->normalize($uri->path(false), '/'), false)
-      ->query($this->normalize($uri->query(false), null), false)
-      ->fragment($this->normalize($uri->fragment(false), null), false)
+      ->path(self::ofPath($uri->path(false)), false)
+      ->query(self::ofSegment($uri->query(false)), false)
+      ->fragment(self::ofSegment($uri->fragment(false)), false)
     ;
 
     if ($authority= $uri->authority()) {
