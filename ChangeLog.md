@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.2.1 / 2018-02-16
+
+* Fixed issue #3: Creation(X)->create() should return X - @thekid
+
 ## 1.2.0 / 2018-01-21
 
 * Changed canonicalization to also remove multiple forward slashes

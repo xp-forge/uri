@@ -166,4 +166,28 @@ class URICreationTest extends \unittest\TestCase {
   public function remove_password() {
     $this->assertEquals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
   }
+
+  #[@test, @values([
+  #  'https://example.com/login?service=http%3A%2F%2Flocalhost',
+  #  'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',
+  #])]
+  public function encoded_params_are_passed_through($uri) {
+    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+  }
+
+  #[@test, @values([
+  #  'https://example.com/%21ncoded',
+  #  'https://example.com/%2521ncoded',
+  #])]
+  public function encoded_paths_are_passed_through($uri) {
+    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+  }
+
+  #[@test, @values([
+  #  'https://example.com/#%21ncoded',
+  #  'https://example.com/#%2521ncoded',
+  #])]
+  public function encoded_fragments_are_passed_through($uri) {
+    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+  }
 }

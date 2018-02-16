@@ -31,9 +31,11 @@ class Creation {
 
     $this->scheme= $uri->scheme();
     $this->authority= $uri->authority();
-    $this->path= $uri->path();
-    $this->query= $uri->query();
-    $this->fragment= $uri->fragment();
+
+    // Do not decode these URI parts
+    $this->path= $uri->path(false);
+    $this->query= $uri->query(false);
+    $this->fragment= $uri->fragment(false);
   }
 
   /**
