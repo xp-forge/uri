@@ -212,9 +212,9 @@ class Creation {
       );
     }
 
-    // If parameters were given
+    // If parameters were given, overwrite query with encoded parameters
     if (null !== $this->params) {
-      $this->query= Parameters::encode($this->params);
+      $this->query= Parameters::encode($this->params, null);
     }
 
     // Sanity check

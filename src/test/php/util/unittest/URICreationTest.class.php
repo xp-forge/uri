@@ -167,6 +167,30 @@ class URICreationTest extends \unittest\TestCase {
     $this->assertEquals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
   }
 
+  #[@test]
+  public function removing_last_param_also_removes_question_mark() {
+    $this->assertEquals(
+      'http://example.com/',
+      (string)(new URI('http://example.com/?ticket=ABC'))->using()->param('ticket', null)->create()
+    );
+  }
+
+  #[@test]
+  public function removing_all_params_also_removes_question_mark() {
+    $this->assertEquals(
+      'http://example.com/',
+      (string)(new URI('http://example.com/?ticket=ABC'))->using()->params([])->create()
+    );
+  }
+
+  #[@test]
+  public function removing_fragment_also_removes_hash() {
+    $this->assertEquals(
+      'http://example.com/',
+      (string)(new URI('http://example.com/#top'))->using()->fragment(null)->create()
+    );
+  }
+
   #[@test, @values([
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost',
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',

@@ -58,10 +58,11 @@ class Parameters implements Value, \IteratorAggregate {
    * Encodes parameters to a string
    *
    * @param  [:var] $pairs
+   * @param  string $default
    * @return string
    */
-  public static function encode($pairs) {
-    if (empty($pairs)) return '';
+  public static function encode($pairs, $default= '') {
+    if (empty($pairs)) return $default;
 
     $query= '';
     foreach ($pairs as $key => $value) {

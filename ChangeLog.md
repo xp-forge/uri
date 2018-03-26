@@ -3,6 +3,12 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.2.2 / 2018-03-26
+
+* Fixed `util.uri.Creation` to remove trailing `?` when last parameter
+  is removed via `param($p, null)`.
+  (@thekid)
+
 ## 1.2.1 / 2018-02-16
 
 * Fixed issue #3: Creation(X)->create() should return X - @thekid
