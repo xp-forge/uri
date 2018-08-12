@@ -1,10 +1,10 @@
 <?php namespace util\unittest;
 
+use util\Authority;
+use util\Secret;
 use util\URI;
 use util\uri\Creation;
 use util\uri\Parameters;
-use util\Authority;
-use util\Secret;
 
 class URICreationTest extends \unittest\TestCase {
 
@@ -103,6 +103,14 @@ class URICreationTest extends \unittest\TestCase {
     $this->assertEquals(
       new URI('http://example.com#home'),
       (new Creation())->scheme('http')->host('example.com')->fragment('home')->create()
+    );
+  }
+
+  #[@test]
+  public function no_fragment() {
+    $this->assertEquals(
+      new URI('http://example.com'),
+      (new Creation())->scheme('http')->host('example.com')->fragment(null)->create()
     );
   }
 
