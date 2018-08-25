@@ -216,6 +216,27 @@ class URICreationTest extends \unittest\TestCase {
   }
 
   #[@test, @values([
+  #  [[], ''],
+  #  [['/test'], '/test'],
+  #  [['/test/'], '/test/'],
+  #  [['/test', 'child/'], '/test/child/'],
+  #  [['/test', 'child'], '/test/child'],
+  #  [['/test/', 'child'], '/test/child'],
+  #  [['/test//', 'child'], '/test/child'],
+  #  [['/test', '/child'], '/test/child'],
+  #  [['/test/', '/child'], '/test/child'],
+  #  [['/test/', '//child'], '/test/child'],
+  #  [['/test//', '//child'], '/test/child'],
+  #  [['/test', 'child', 'sub'], '/test/child/sub'],
+  #])]
+  public function combining_path($paths, $expected) {
+    $this->assertEquals(
+      'http://example.com'.$expected,
+      (string)(new URI('http://example.com'))->using()->path($paths)->create()
+    );
+  }
+
+  #[@test, @values([
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost',
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',
   #])]
