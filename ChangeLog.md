@@ -3,6 +3,11 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.3.0 / 2018-08-25
+
+* Merged PR #4: Make path() accept arrays which are joined together
+  (@thekid)
+
 ## 1.2.2 / 2018-03-26
 
 * Fixed `util.uri.Creation` to remove trailing `?` when last parameter
