@@ -1,9 +1,9 @@
 <?php namespace util\uri;
 
-use util\URI;
+use lang\IllegalStateException;
 use util\Authority;
 use util\Secret;
-use lang\IllegalStateException;
+use util\URI;
 
 /**
  * Creates URI instances 
@@ -130,12 +130,24 @@ class Creation {
   /**
    * Sets path (use NULL to remove), encoding by default
    *
-   * @param  string $value
+   * @param  string|string[] $value
    * @param  bool $encode
    * @return self
    */
   public function path($value, $encode= true) {
-    $this->path= null === $value || !$encode ? $value : $this->escape($value, '@+/:', 'rawurlencode');
+    if (null === $value) {
+      $this->path= null;
+    } else if (is_array($value)) {
+      $this->path= '';
+      foreach ($value as $path) {
+        $this->path= rtrim($this->path, '/').'/'.($encode
+          ? $this->escape(ltrim($path, '/'), '@+/:', 'rawurlencode')
+          : ltrim($path, '/')
+        );
+      }
+    } else {
+      $this->path= $encode ? $this->escape($value, '@+/:', 'rawurlencode') : $value;
+    }
     return $this;
   }
 
