@@ -199,6 +199,22 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
+  #[@test]
+  public function removing_path() {
+    $this->assertEquals(
+      'http://example.com',
+      (string)(new URI('http://example.com/test'))->using()->path(null)->create()
+    );
+  }
+
+  #[@test, @values(['/', '/test', '/test/child'])]
+  public function path($path) {
+    $this->assertEquals(
+      'http://example.com'.$path,
+      (string)(new URI('http://example.com/'))->using()->path($path)->create()
+    );
+  }
+
   #[@test, @values([
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost',
   #  'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',
