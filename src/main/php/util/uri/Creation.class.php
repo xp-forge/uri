@@ -128,7 +128,8 @@ class Creation {
   }
 
   /**
-   * Sets path (use NULL to remove), encoding by default
+   * Sets path (use NULL to remove), encoding by default. Multiple paths
+   * are joined together
    *
    * @param  string|string[] $value
    * @param  bool $encode
