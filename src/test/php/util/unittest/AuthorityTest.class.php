@@ -1,8 +1,8 @@
 <?php namespace util\unittest;
 
+use lang\FormatException;
 use util\Authority;
 use util\Secret;
-use lang\FormatException;
 
 class AuthorityTest extends \unittest\TestCase {
 
@@ -100,5 +100,37 @@ class AuthorityTest extends \unittest\TestCase {
   #])]
   public function parse_malformed($arg) {
     Authority::parse($arg);
+  }
+
+  #[@test]
+  public function password_hidden_in_as_string() {
+    $this->assertEquals(
+      'user:********@example.com',
+      Authority::parse('user:password@example.com')->asString(false)
+    );
+  }
+
+  #[@test]
+  public function reveal_password_in_as_string() {
+    $this->assertEquals(
+      'user:password@example.com',
+      Authority::parse('user:password@example.com')->asString(true)
+    );
+  }
+
+  #[@test]
+  public function password_included_in_string_cast() {
+    $this->assertEquals(
+      'user:password@example.com',
+      (string)Authority::parse('user:password@example.com')
+    );
+  }
+
+  #[@test]
+  public function password_hidden_in_to_string() {
+    $this->assertEquals(
+      'util.Authority<user:********@example.com>',
+      Authority::parse('user:password@example.com')->toString()
+    );
   }
 }
