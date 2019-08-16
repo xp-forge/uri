@@ -122,7 +122,7 @@ class Creation {
       $s.= substr($input, $o, $p);
       $o+= $p;
       if ($o >= $l) break;
-      $s.= $encode($input{$o});
+      $s.= $encode($input[$o]);
     } while ($o++);
     return $s;
   }

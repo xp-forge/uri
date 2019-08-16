@@ -1,12 +1,12 @@
 <?php namespace util;
 
-use lang\Value;
+use io\Path;
 use lang\FormatException;
 use lang\IllegalStateException;
-use util\uri\Creation;
+use lang\Value;
 use util\uri\Canonicalization;
+use util\uri\Creation;
 use util\uri\Parameters;
-use io\Path;
 
 /**
  * A Uniform Resource Identifier (URI) is a compact sequence of
@@ -107,11 +107,11 @@ class URI implements Value {
       $this->path= $path;
     } else if (null === $path) {
       if (null === $query) $query= $this->query;
-    } else if ('/' === $path{0}) {
+    } else if ('/' === $path[0]) {
       $this->path= $path;
     } else if (null === $this->path) {
       $this->path= '/'.$path;
-    } else if ('/' === $this->path{strlen($this->path)- 1}) {
+    } else if ('/' === $this->path[strlen($this->path)- 1]) {
       $this->path= $this->path.$path;
     } else {
       $this->path= substr($this->path, 0, strpos($this->path, '/')).'/'.$path;

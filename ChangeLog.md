@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Made compatible with PHP 7.4 - don't use `{}` for string offset;
+  see https://wiki.php.net/rfc/deprecate_curly_braces_array_access
+  (@thekid)
+
 ## 1.3.0 / 2018-08-25
 
 * Merged PR #4: Make path() accept arrays which are joined together
