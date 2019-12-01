@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.4.1 / 2019-12-01
+
+* Made compatible with XP 10 - @thekid
+
 ## 1.4.0 / 2019-08-16
 
 * Made compatible with PHP 7.4 - don't use `{}` for string offset;
