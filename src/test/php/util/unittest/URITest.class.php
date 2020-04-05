@@ -1,11 +1,11 @@
 <?php namespace util\unittest;
 
-use util\URI;
-use util\Authority;
-use lang\Primitive;
+use io\Path;
 use lang\FormatException;
 use lang\IllegalStateException;
-use io\Path;
+use lang\Primitive;
+use util\Authority;
+use util\URI;
 
 class URITest extends \unittest\TestCase {
 
@@ -240,7 +240,6 @@ class URITest extends \unittest\TestCase {
     $this->assertEquals('a=%2F&c=d+e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment(false));
   }
 
-
   #[@test, @values([
   #  'http://example.com',
   #  'http://example.com:80',
@@ -335,7 +334,7 @@ class URITest extends \unittest\TestCase {
     new URI('');
   }
 
-  #[@test, @expect(class= FormatException::class, withMessage= '/Scheme .+ malformed/'), @values([
+  #[@test, @expect(['class' => FormatException::class, 'withMessage' => '/Scheme .+ malformed/']), @values([
   #  '://example.com',
   #  '0://example.com',
   #  '-://example.com',
@@ -354,7 +353,7 @@ class URITest extends \unittest\TestCase {
     new URI($arg);
   }
 
-  #[@test, @expect(class= FormatException::class, withMessage= '/Authority .+ malformed/'), @values([
+  #[@test, @expect(['class' => FormatException::class, 'withMessage' => '/Authority .+ malformed/']), @values([
   #  'http://user:',
   #  'http://user@',
   #  'http://user:password@',

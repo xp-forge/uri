@@ -3,6 +3,11 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 1.4.2 / 2020-04-05
+
+* Implemented RFC #335: Remove deprecated key/value pair annotation syntax
+  (@thekid)
+
 ## 1.4.1 / 2019-12-01
 
 * Made compatible with XP 10 - @thekid
