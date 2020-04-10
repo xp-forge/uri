@@ -5,7 +5,11 @@ URI handling change log
 
 ## 2.0.0 / 2020-04-10
 
-* Implemented xp-framework/rfc#334: Drop PHP 5.6 - @thekid
+* Implemented xp-framework/rfc#334: Drop PHP 5.6:
+  . Rewrite `isset(X) ? X : default` to `X ?? default`
+  . Use `yield from`
+  . Group use statements
+  (@thekid)
 
 ## 1.4.2 / 2020-04-05
 
