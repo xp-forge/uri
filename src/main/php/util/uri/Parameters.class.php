@@ -142,9 +142,7 @@ class Parameters implements Value, \IteratorAggregate {
 
   /** @return iterable */
   public function getIterator() {
-    foreach ($this->pairs as $key => $value) {
-      yield $key => $value;
-    }
+    yield from $this->pairs;
   }
 
   /** @return string */
