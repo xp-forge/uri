@@ -1,9 +1,9 @@
 <?php namespace util\uri;
 
-use util\URI;
-use util\Objects;
 use lang\FormatException;
 use lang\Value;
+use util\Objects;
+use util\URI;
 
 /**
  * URI Parameters
@@ -137,7 +137,7 @@ class Parameters implements Value, \IteratorAggregate {
    * @return var
    */
   public function named($name, $default= null) {
-    return isset($this->pairs[$name]) ? $this->pairs[$name] : $default;
+    return $this->pairs[$name] ?? $default;
   }
 
   /** @return iterable */

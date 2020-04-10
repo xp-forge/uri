@@ -1,7 +1,7 @@
 <?php namespace util\uri;
 
-use util\URI;
 use util\Authority;
+use util\URI;
 
 /**
  * Canonicalizes URIs
@@ -118,7 +118,7 @@ class Canonicalization {
     ;
 
     if ($authority= $uri->authority()) {
-      $port= isset(self::$defaults[$scheme]) ? self::$defaults[$scheme] : null;
+      $port= self::$defaults[$scheme] ?? null;
       $creation->authority(new Authority(
         strtolower($authority->host()),
         $authority->port() === $port ? null : $authority->port(),
