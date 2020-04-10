@@ -1,12 +1,8 @@
 <?php namespace util;
 
 use io\Path;
-use lang\FormatException;
-use lang\IllegalStateException;
-use lang\Value;
-use util\uri\Canonicalization;
-use util\uri\Creation;
-use util\uri\Parameters;
+use lang\{FormatException, IllegalStateException, Value};
+use util\uri\{Canonicalization, Creation, Parameters};
 
 /**
  * A Uniform Resource Identifier (URI) is a compact sequence of

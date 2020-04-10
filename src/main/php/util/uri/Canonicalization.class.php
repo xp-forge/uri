@@ -1,7 +1,6 @@
 <?php namespace util\uri;
 
-use util\Authority;
-use util\URI;
+use util\{Authority, URI};
 
 /**
  * Canonicalizes URIs

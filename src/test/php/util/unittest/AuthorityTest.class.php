@@ -1,8 +1,7 @@
 <?php namespace util\unittest;
 
 use lang\FormatException;
-use util\Authority;
-use util\Secret;
+use util\{Authority, Secret};
 
 class AuthorityTest extends \unittest\TestCase {
 

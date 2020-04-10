@@ -1,9 +1,7 @@
 <?php namespace util\uri;
 
-use lang\FormatException;
-use lang\Value;
-use util\Objects;
-use util\URI;
+use lang\{FormatException, Value};
+use util\{Objects, URI};
 
 /**
  * URI Parameters

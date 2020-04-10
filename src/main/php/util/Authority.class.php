@@ -1,7 +1,6 @@
 <?php namespace util;
 
-use lang\FormatException;
-use lang\Value;
+use lang\{FormatException, Value};
 
 /**
  * Many URI schemes include a hierarchical element for a naming authority.

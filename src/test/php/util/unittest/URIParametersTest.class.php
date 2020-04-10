@@ -1,7 +1,7 @@
 <?php namespace util\unittest;
 
-use util\uri\Parameters;
 use lang\FormatException;
+use util\uri\Parameters;
 
 class URIParametersTest extends \unittest\TestCase {
 

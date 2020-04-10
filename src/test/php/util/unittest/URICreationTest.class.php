@@ -1,10 +1,7 @@
 <?php namespace util\unittest;
 
-use util\Authority;
-use util\Secret;
-use util\URI;
-use util\uri\Creation;
-use util\uri\Parameters;
+use util\{Authority, Secret, URI};
+use util\uri\{Creation, Parameters};
 
 class URICreationTest extends \unittest\TestCase {
 

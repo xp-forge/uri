@@ -1,9 +1,7 @@
 <?php namespace util\uri;
 
 use lang\IllegalStateException;
-use util\Authority;
-use util\Secret;
-use util\URI;
+use util\{Authority, Secret, URI};
 
 /**
  * Creates URI instances 

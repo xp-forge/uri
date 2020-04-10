@@ -1,11 +1,8 @@
 <?php namespace util\unittest;
 
 use io\Path;
-use lang\FormatException;
-use lang\IllegalStateException;
-use lang\Primitive;
-use util\Authority;
-use util\URI;
+use lang\{FormatException, IllegalStateException, Primitive};
+use util\{Authority, URI};
 
 class URITest extends \unittest\TestCase {
 
