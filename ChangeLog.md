@@ -3,9 +3,14 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.0.0 / 2020-04-10
+
+* Implemented xp-framework/rfc#334: Drop PHP 5.6 - @thekid
+
 ## 1.4.2 / 2020-04-05
 
-* Implemented RFC #335: Remove deprecated key/value pair annotation syntax
+* Implemented xp-framework/rfc#335: Remove deprecated key/value pair
+  annotation syntax
   (@thekid)
 
 ## 1.4.1 / 2019-12-01
