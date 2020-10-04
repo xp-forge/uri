@@ -1,21 +1,22 @@
 <?php namespace util\unittest;
 
-use util\{Authority, Secret, URI};
+use unittest\{Test, Values};
 use util\uri\{Creation, Parameters};
+use util\{Authority, Secret, URI};
 
 class URICreationTest extends \unittest\TestCase {
 
-  #[@test]
+  #[Test]
   public function can_create() {
     new Creation();
   }
 
-  #[@test]
+  #[Test]
   public function can_create_with_uri() {
     new Creation(new URI('http://example.com'));
   }
 
-  #[@test]
+  #[Test]
   public function opaque_uri() {
     $this->assertEquals(
       new URI('mailto:test@example.com'),
@@ -23,7 +24,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([['test@example.com:22'], [new Authority('example.com', 22, 'test')]])]
+  #[Test, Values(eval: '[["test@example.com:22"], [new Authority("example.com", 22, "test")]]')]
   public function hierarchical_uri($authority) {
     $this->assertEquals(
       new URI('ssh://test@example.com:22'),
@@ -31,7 +32,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function file_uri_requires_empty_authority() {
     $this->assertEquals(
       new URI('file:///usr/local/etc/php.ini'),
@@ -39,7 +40,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function host() {
     $this->assertEquals(
       new URI('http://example.com'),
@@ -47,7 +48,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function port() {
     $this->assertEquals(
       new URI('http://example.com:80'),
@@ -55,7 +56,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function without_port() {
     $this->assertEquals(
       new URI('http://example.com'),
@@ -63,7 +64,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function user() {
     $this->assertEquals(
       new URI('http://test@example.com'),
@@ -71,7 +72,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([['secret'], [new Secret('secret')]])]
+  #[Test, Values(eval: '[["secret"], [new Secret("secret")]]')]
   public function password($password) {
     $this->assertEquals(
       new URI('http://test:secret@example.com'),
@@ -79,7 +80,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function query() {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=Hello'),
@@ -87,7 +88,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function query_encoding() {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=Hello+World'),
@@ -95,7 +96,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fragment() {
     $this->assertEquals(
       new URI('http://example.com#home'),
@@ -103,7 +104,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function no_fragment() {
     $this->assertEquals(
       new URI('http://example.com'),
@@ -111,7 +112,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function fragment_encoding() {
     $this->assertEquals(
       new URI('http://example.com#to+top'),
@@ -119,7 +120,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function modify_uri_given_to_constructor() {
     $this->assertEquals(
       new URI('https://example.com:443'),
@@ -127,7 +128,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function param() {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
@@ -135,10 +136,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([
-  #  [['Subject' => 'Über']],
-  #  [new Parameters('Subject=%C3%9Cber')]
-  #])]
+  #[Test, Values(eval: '[[["Subject" => "Über"]], [new Parameters("Subject=%C3%9Cber")]]')]
   public function params($argument) {
     $this->assertEquals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
@@ -146,10 +144,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([
-  #  ['http://localhost'],
-  #  [new URI('http://localhost')]
-  #])]
+  #[Test, Values(eval: '[["http://localhost"], [new URI("http://localhost")]]')]
   public function param_is_encoded($uri) {
     $this->assertEquals(
       new URI('https://example.com/login?service=http%3A%2F%2Flocalhost'),
@@ -157,22 +152,22 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function remove_port() {
     $this->assertEquals(null, (new URI('http://example.com:8080'))->using()->port(null)->create()->port());
   }
 
-  #[@test]
+  #[Test]
   public function remove_user() {
     $this->assertEquals(null, (new URI('http://test@example.com'))->using()->user(null)->create()->user());
   }
 
-  #[@test]
+  #[Test]
   public function remove_password() {
     $this->assertEquals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
   }
 
-  #[@test]
+  #[Test]
   public function removing_last_param_also_removes_question_mark() {
     $this->assertEquals(
       'http://example.com/',
@@ -180,7 +175,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function removing_all_params_also_removes_question_mark() {
     $this->assertEquals(
       'http://example.com/',
@@ -188,7 +183,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function removing_fragment_also_removes_hash() {
     $this->assertEquals(
       'http://example.com/',
@@ -196,7 +191,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function removing_path() {
     $this->assertEquals(
       'http://example.com',
@@ -204,7 +199,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values(['/', '/test', '/test/child'])]
+  #[Test, Values(['/', '/test', '/test/child'])]
   public function path($path) {
     $this->assertEquals(
       'http://example.com'.$path,
@@ -212,20 +207,7 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([
-  #  [[], ''],
-  #  [['/test'], '/test'],
-  #  [['/test/'], '/test/'],
-  #  [['/test', 'child/'], '/test/child/'],
-  #  [['/test', 'child'], '/test/child'],
-  #  [['/test/', 'child'], '/test/child'],
-  #  [['/test//', 'child'], '/test/child'],
-  #  [['/test', '/child'], '/test/child'],
-  #  [['/test/', '/child'], '/test/child'],
-  #  [['/test/', '//child'], '/test/child'],
-  #  [['/test//', '//child'], '/test/child'],
-  #  [['/test', 'child', 'sub'], '/test/child/sub'],
-  #])]
+  #[Test, Values([[[], ''], [['/test'], '/test'], [['/test/'], '/test/'], [['/test', 'child/'], '/test/child/'], [['/test', 'child'], '/test/child'], [['/test/', 'child'], '/test/child'], [['/test//', 'child'], '/test/child'], [['/test', '/child'], '/test/child'], [['/test/', '/child'], '/test/child'], [['/test/', '//child'], '/test/child'], [['/test//', '//child'], '/test/child'], [['/test', 'child', 'sub'], '/test/child/sub'],])]
   public function combining_path($paths, $expected) {
     $this->assertEquals(
       'http://example.com'.$expected,
@@ -233,26 +215,17 @@ class URICreationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([
-  #  'https://example.com/login?service=http%3A%2F%2Flocalhost',
-  #  'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',
-  #])]
+  #[Test, Values(['https://example.com/login?service=http%3A%2F%2Flocalhost', 'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',])]
   public function encoded_params_are_passed_through($uri) {
     $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
 
-  #[@test, @values([
-  #  'https://example.com/%21ncoded',
-  #  'https://example.com/%2521ncoded',
-  #])]
+  #[Test, Values(['https://example.com/%21ncoded', 'https://example.com/%2521ncoded',])]
   public function encoded_paths_are_passed_through($uri) {
     $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
 
-  #[@test, @values([
-  #  'https://example.com/#%21ncoded',
-  #  'https://example.com/#%2521ncoded',
-  #])]
+  #[Test, Values(['https://example.com/#%21ncoded', 'https://example.com/#%2521ncoded',])]
   public function encoded_fragments_are_passed_through($uri) {
     $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
