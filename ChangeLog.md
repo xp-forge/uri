@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.0.1 / 2021-03-14
+
+* Fixed issue #5: PHP 8.1 warnings - @thekid
+
 ## 2.0.0 / 2020-04-10
 
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
