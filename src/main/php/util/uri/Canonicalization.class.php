@@ -117,9 +117,10 @@ class Canonicalization {
     ;
 
     if ($authority= $uri->authority()) {
+      $host= $authority->host();
       $port= self::$defaults[$scheme] ?? null;
       $creation->authority(new Authority(
-        strtolower($authority->host()),
+        null === $host ? null : strtolower($host),
         $authority->port() === $port ? null : $authority->port(),
         $authority->user(),
         $authority->password()
