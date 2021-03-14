@@ -82,7 +82,7 @@ class Parameters implements Value, \IteratorAggregate {
 
     $nesting || $nesting= ini_get('max_input_nesting_level') ?: 64;
     $pairs= [];
-    foreach (explode('&', $query) as $pair) {
+    foreach (explode('&', (string)$query) as $pair) {
       $key= $value= null;
       sscanf($pair, "%[^=]=%[^\r]", $key, $value);
       if (null === $key) continue;
@@ -113,9 +113,9 @@ class Parameters implements Value, \IteratorAggregate {
             throw new FormatException('Maximum nesting level ('.$nesting.') exceeded');
           }
         } while ($start= strpos($key, '[', $offset));
-        $ptr= urldecode($value);
+        $ptr= urldecode($value ?? '');
       } else {
-        $pairs[$key]= urldecode($value);
+        $pairs[$key]= urldecode($value ?? '');
       }
     }
     return $pairs;
