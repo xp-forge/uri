@@ -3,6 +3,11 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.0 / 2021-03-21
+
+* Canonicalized path when resolving against relative URIs - @thekid
+* Fixed resolving relative URIs against URIs including files - @thekid
+
 ## 2.0.1 / 2021-03-14
 
 * Fixed issue #5: PHP 8.1 warnings - @thekid

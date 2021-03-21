@@ -88,7 +88,8 @@ class URI implements Value {
   }
 
   /**
-   * Resolve authority, path, query and fragment against this URI
+   * Resolve authority, path, query and fragment against this URI. Canonicalizes
+   * path while doing so, removing `./` and `../`.
    *
    * @see    https://tools.ietf.org/html/rfc3986#section-5.2.2
    * @param  util.Authority $authority
@@ -100,19 +101,19 @@ class URI implements Value {
   private function resolve0($authority, $path, $query, $fragment) {
     if ($authority) {
       $this->authority= $authority;
-      $this->path= $path;
     } else if (null === $path) {
       if (null === $query) $query= $this->query;
     } else if ('/' === $path[0]) {
-      $this->path= $path;
+      // NOOP
     } else if (null === $this->path) {
-      $this->path= '/'.$path;
-    } else if ('/' === $this->path[strlen($this->path)- 1]) {
-      $this->path= $this->path.$path;
+      $path= '/'.$path;
+    } else if ('/' === $this->path[strlen($this->path) - 1]) {
+      $path= $this->path.$path;
     } else {
-      $this->path= substr($this->path, 0, strpos($this->path, '/')).'/'.$path;
+      $path= substr($this->path, 0, strrpos($this->path, '/')).'/'.$path;
     }
 
+    $this->path= Canonicalization::ofPath($path);
     $this->query= $query;
     $this->fragment= $fragment;
   }

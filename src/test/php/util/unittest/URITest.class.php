@@ -306,9 +306,9 @@ class URITest extends \unittest\TestCase {
     yield [new URI('/home/'), 'index.html', new URI('/home/index.html')];
     yield [new URI('file:///var/www-data/'), 'index.html', new URI('file:///var/www-data/index.html')];
     yield [new URI('http://localhost'), 'index.html', new URI('http://localhost/index.html')];
-    yield [new URI('http://localhost'), '?a=b', new URI('http://localhost?a=b')];
-    yield [new URI('http://localhost'), '#top', new URI('http://localhost#top')];
-    yield [new URI('http://localhost?a=b'), '#top', new URI('http://localhost?a=b#top')];
+    yield [new URI('http://localhost'), '?a=b', new URI('http://localhost/?a=b')];
+    yield [new URI('http://localhost'), '#top', new URI('http://localhost/#top')];
+    yield [new URI('http://localhost?a=b'), '#top', new URI('http://localhost/?a=b#top')];
     yield [new URI('http://localhost'), 'index.html?a=b', new URI('http://localhost/index.html?a=b')];
     yield [new URI('http://localhost'), 'index.html#top', new URI('http://localhost/index.html#top')];
     yield [new URI('http://localhost/home.html'), 'index.html', new URI('http://localhost/index.html')];
@@ -317,10 +317,19 @@ class URITest extends \unittest\TestCase {
     yield [new URI('http://localhost#top'), 'index.html', new URI('http://localhost/index.html')];
     yield [new URI('http://localhost/home/'), 'index.html', new URI('http://localhost/home/index.html')];
     yield [new URI('http://localhost/home'), '/index.html', new URI('http://localhost/index.html')];
-    yield [new URI('http://localhost'), '//example.com', new URI('http://example.com')];
-    yield [new URI('http://localhost/home'), '//example.com', new URI('http://example.com')];
+    yield [new URI('http://localhost'), '//example.com', new URI('http://example.com/')];
+    yield [new URI('http://localhost/home'), '//example.com', new URI('http://example.com/')];
     yield [new URI('http://localhost'), 'https://example.com', new URI('https://example.com')];
     yield [new URI('http://localhost/home'), 'https://example.com', new URI('https://example.com')];
+    yield [new URI('http://localhost/ui@2.8.7/style.css'), '/index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost/ui@2.8.7/style.css'), 'icons.woff', new URI('http://localhost/ui@2.8.7/icons.woff')];
+    yield [new URI('http://localhost/ui@2.8.7/style.css'), 'a/icons.woff', new URI('http://localhost/ui@2.8.7/a/icons.woff')];
+    yield [new URI('http://localhost'), '../index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost/ui@2.8.7'), '../index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost/ui@2.8.7/style.css'), '../index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost'), './index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost/home.html'), './index.html', new URI('http://localhost/index.html')];
+    yield [new URI('http://localhost/ui@2.8.7/style.css'), './icons.woff', new URI('http://localhost/ui@2.8.7/icons.woff')];
   }
 
   #[Test, Values('resolvables')]
