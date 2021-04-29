@@ -21,6 +21,7 @@ class URITest extends \unittest\TestCase {
     yield [new URI('http://127.0.0.1:8080')];
     yield [new URI('http://user:pass@[::1]')];
     yield [new URI('ldap://example.com/c=GB?objectClass?one')];
+    yield [new URI('mysql+std://user:pass@db.example.com')];
   }
 
   /** @return iterable */
