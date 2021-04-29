@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.1 / 2021-04-29
+
+* Fixed URIs beginning with `/:p:/` being treated as absolute - @thekid
+
 ## 2.1.0 / 2021-03-21
 
 * Canonicalized path when resolving against relative URIs - @thekid

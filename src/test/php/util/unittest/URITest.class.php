@@ -28,6 +28,9 @@ class URITest extends \unittest\TestCase {
     yield [new URI('/index.html')];
     yield [new URI('../../demo/index.html')];
     yield [new URI('//example.com/?a=b')];
+    yield [new URI('/:p:/s/relative')];
+    yield [new URI('./:p:/s/self')];
+    yield [new URI('../:p:/s/parent')];
   }
 
   #[Test, Values('opaqueUris')]
