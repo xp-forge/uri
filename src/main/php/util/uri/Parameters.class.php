@@ -1,5 +1,6 @@
 <?php namespace util\uri;
 
+use IteratorAggregate, Traversable;
 use lang\{FormatException, Value};
 use util\{Objects, URI};
 
@@ -11,7 +12,7 @@ use util\{Objects, URI};
  * @see   https://en.wikipedia.org/wiki/Query_string#URL_encoding
  * @test  xp://util.unittest.URIParametersTest
  */
-class Parameters implements Value, \IteratorAggregate {
+class Parameters implements Value, IteratorAggregate {
   private $pairs= [];
 
   /**
@@ -138,8 +139,8 @@ class Parameters implements Value, \IteratorAggregate {
     return $this->pairs[$name] ?? $default;
   }
 
-  /** @return iterable */
-  public function getIterator() {
+  /** Iterates over all pairs */
+  public function getIterator(): Traversable {
     yield from $this->pairs;
   }
 

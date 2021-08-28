@@ -36,6 +36,11 @@ class URIParametersTest extends \unittest\TestCase {
     $this->assertEquals($expected, (new Parameters($input))->pairs());
   }
 
+  #[Test, Values('fixtures')]
+  public function iterable($input, $expected) {
+    $this->assertEquals($expected, iterator_to_array(new Parameters($input)));
+  }
+
   #[Test, Values(['a=', 'a'])]
   public function empty_scalar($input) {
     $this->assertEquals(['a' => ''], (new Parameters($input))->pairs());

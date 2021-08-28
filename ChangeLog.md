@@ -3,6 +3,11 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.2 / 2021-08-29
+
+* Fixed PHP 8.1 warnings for `IteratorAggregate` interface compatibility
+  (@thekid)
+
 ## 2.1.1 / 2021-04-29
 
 * Fixed URIs beginning with `/:p:/` being treated as absolute - @thekid
