@@ -68,21 +68,24 @@ class URI implements Value {
    * @return var[]
    */
   private function parse($relative) {
+    static $enc= null;
+
     if (0 === strlen($relative)) {
       throw new FormatException('Cannot parse empty input');
     }
 
     preg_match('!^((//)([^/?#]*)(/[^?#]*)?|([^?#]*))(\?[^#]*)?(#.*)?!', $relative, $matches);
+    $enc ?? $enc= function($m) { return urlencode($m[0]); };
     if ('//' === $matches[2]) {
       $authority= '' === $matches[3] ? Authority::$EMPTY : Authority::parse($matches[3]);
-      $path= isset($matches[4]) && '' !== $matches[4] ? $matches[4] : null;
+      $path= isset($matches[4]) && '' !== $matches[4] ? preg_replace_callback('/[^\x00-\x7F]+/', $enc, $matches[4]) : null;
     } else {
       $authority= null;
       $path= '' === $matches[5] ? null : $matches[5];
     }
 
-    $query= isset($matches[6]) && '' !== $matches[6] ? substr($matches[6], 1) : null;
-    $fragment= isset($matches[7]) && '' !== $matches[7] ? substr($matches[7], 1) : null;
+    $query= isset($matches[6]) && '' !== $matches[6] ? preg_replace_callback('/[^\x00-\x7F]+/', $enc, substr($matches[6], 1)) : null;
+    $fragment= isset($matches[7]) && '' !== $matches[7] ? preg_replace_callback('/[^\x00-\x7F]+/', $enc, substr($matches[7], 1)) : null;
 
     return [$authority, $path, $query, $fragment];
   }

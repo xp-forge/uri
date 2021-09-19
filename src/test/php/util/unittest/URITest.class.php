@@ -120,6 +120,16 @@ class URITest {
   }
 
   #[Test]
+  public function raw_unicode_path() {
+    Assert::equals('/%C3%BCber.html', (new URI('http://example.com/über.html'))->path(false));
+  }
+
+  #[Test]
+  public function unicode_path() {
+    Assert::equals('/über.html', (new URI('http://example.com/über.html'))->path());
+  }
+
+  #[Test]
   public function file_url_path() {
     Assert::equals('/usr/local/etc/php.ini', (new URI('file:///usr/local/etc/php.ini'))->path());
   }
@@ -180,6 +190,16 @@ class URITest {
   }
 
   #[Test]
+  public function unicode_query() {
+    Assert::equals('a=ü&c=d', (new URI('http://example.com?a=ü&c=d'))->query());
+  }
+
+  #[Test]
+  public function raw_unicode_query() {
+    Assert::equals('a=%C3%BC&c=d', (new URI('http://example.com?a=ü&c=d'))->query(false));
+  }
+
+  #[Test]
   public function query_for_opaque_uri() {
     Assert::equals('Subject=Hello World', (new URI('mailto:fred@example.com?Subject=Hello%20World'))->query());
   }
@@ -209,9 +229,24 @@ class URITest {
     Assert::equals('a=%2F&c=d+e', (new URI('http://example.com#a=%2F&c=d+e'))->fragment(false));
   }
 
+  #[Test]
+  public function unicode_fragment() {
+    Assert::equals('a=ü&c=d', (new URI('http://example.com#a=ü&c=d'))->fragment());
+  }
+
+  #[Test]
+  public function raw_unicode_fragment() {
+    Assert::equals('a=%C3%BC&c=d', (new URI('http://example.com#a=ü&c=d'))->fragment(false));
+  }
+
   #[Test, Values(['http://example.com', 'http://example.com:80', 'http://user@example.com', 'http://user:pass@example.com', 'http://u%3Aroot:p%3Asecret@example.com', 'http://example.com?param=value', 'http://example.com/#fragment', 'http://example.com//path', 'http://example.com/path/with%2Fslashes', 'http://example.com/path?param=value&ie=utf8#fragment', 'https://example.com', 'https://msdn.microsoft.com/en-us/library/system.uri(v=vs.110).aspx', 'svn+ssh://example.com/repo/trunk', 'ms-help://section/path/file.htm', 'h323:seconix.com:1740', 'soap.beep://stockquoteserver.example.com/StockQuote', 'https://[::1]:443', 'ftp://example.com', 'file:///usr/local/etc/php.ini', 'file:///c:/php/php.ini', 'file:///c|/php/php.ini', 'tel:+1-816-555-1212', 'urn:oasis:names:specification:docbook:dtd:xml:4.1.2', 'ldap://[2001:db8::7]/c=GB?objectClass?one', 'index.html'])]
   public function string_cast_yields_input($input) {
     Assert::equals($input, (string)new URI($input));
+  }
+
+  #[Test]
+  public function unicode_encoded_in_string_cast() {
+    Assert::equals('http://example.com/%C3%BCber', (string)new URI('http://example.com/über'));
   }
 
   #[Test]
@@ -220,6 +255,11 @@ class URITest {
       'util.URI<http://user:********@example.com>',
       (new URI('http://user:pass@example.com'))->toString()
     );
+  }
+
+  #[Test]
+  public function unicode_encoded_in_string_representation() {
+    Assert::equals('util.URI<http://example.com/%C3%BCber>', (new URI('http://example.com/über'))->toString());
   }
 
   #[Test]
