@@ -1,10 +1,10 @@
 <?php namespace util\unittest;
 
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 use util\uri\{Creation, Parameters};
 use util\{Authority, Secret, URI};
 
-class URICreationTest extends \unittest\TestCase {
+class URICreationTest {
 
   #[Test]
   public function can_create() {
@@ -18,7 +18,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function opaque_uri() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('mailto:test@example.com'),
       (new Creation())->scheme('mailto')->path('test@example.com')->create()
     );
@@ -26,7 +26,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(eval: '[["test@example.com:22"], [new Authority("example.com", 22, "test")]]')]
   public function hierarchical_uri($authority) {
-    $this->assertEquals(
+    Assert::equals(
       new URI('ssh://test@example.com:22'),
       (new Creation())->scheme('ssh')->authority($authority)->create()
     );
@@ -34,7 +34,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function file_uri_requires_empty_authority() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('file:///usr/local/etc/php.ini'),
       (new Creation())->scheme('file')->authority(Authority::$EMPTY)->path('/usr/local/etc/php.ini')->create()
     );
@@ -42,7 +42,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function host() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com'),
       (new Creation())->scheme('http')->host('example.com')->create()
     );
@@ -50,7 +50,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function port() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com:80'),
       (new Creation())->scheme('http')->host('example.com')->port(80)->create()
     );
@@ -58,7 +58,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function without_port() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com'),
       (new Creation())->scheme('http')->host('example.com')->port(null)->create()
     );
@@ -66,7 +66,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function user() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://test@example.com'),
       (new Creation())->scheme('http')->host('example.com')->user('test')->create()
     );
@@ -74,7 +74,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(eval: '[["secret"], [new Secret("secret")]]')]
   public function password($password) {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://test:secret@example.com'),
       (new Creation())->scheme('http')->host('example.com')->user('test')->password($password)->create()
     );
@@ -82,7 +82,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function query() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('mailto:test@example.com?Subject=Hello'),
       (new Creation())->scheme('mailto')->path('test@example.com')->query('Subject=Hello')->create()
     );
@@ -90,7 +90,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function query_encoding() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('mailto:test@example.com?Subject=Hello+World'),
       (new Creation())->scheme('mailto')->path('test@example.com')->query('Subject=Hello World')->create()
     );
@@ -98,7 +98,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function fragment() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com#home'),
       (new Creation())->scheme('http')->host('example.com')->fragment('home')->create()
     );
@@ -106,7 +106,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function no_fragment() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com'),
       (new Creation())->scheme('http')->host('example.com')->fragment(null)->create()
     );
@@ -114,7 +114,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function fragment_encoding() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('http://example.com#to+top'),
       (new Creation())->scheme('http')->host('example.com')->fragment('to top')->create()
     );
@@ -122,7 +122,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function modify_uri_given_to_constructor() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('https://example.com:443'),
       (new Creation(new URI('http://example.com')))->scheme('https')->port(443)->create()
     );
@@ -130,7 +130,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function param() {
-    $this->assertEquals(
+    Assert::equals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
       (new Creation())->scheme('mailto')->path('test@example.com')->param('Subject', 'Über')->create()
     );
@@ -138,7 +138,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(eval: '[[["Subject" => "Über"]], [new Parameters("Subject=%C3%9Cber")]]')]
   public function params($argument) {
-    $this->assertEquals(
+    Assert::equals(
       new URI('mailto:test@example.com?Subject=%C3%9Cber'),
       (new Creation())->scheme('mailto')->path('test@example.com')->params($argument)->create()
     );
@@ -146,7 +146,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(eval: '[["http://localhost"], [new URI("http://localhost")]]')]
   public function param_is_encoded($uri) {
-    $this->assertEquals(
+    Assert::equals(
       new URI('https://example.com/login?service=http%3A%2F%2Flocalhost'),
       (new URI('https://example.com/login'))->using()->param('service', $uri)->create()
     );
@@ -154,22 +154,22 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function remove_port() {
-    $this->assertEquals(null, (new URI('http://example.com:8080'))->using()->port(null)->create()->port());
+    Assert::equals(null, (new URI('http://example.com:8080'))->using()->port(null)->create()->port());
   }
 
   #[Test]
   public function remove_user() {
-    $this->assertEquals(null, (new URI('http://test@example.com'))->using()->user(null)->create()->user());
+    Assert::equals(null, (new URI('http://test@example.com'))->using()->user(null)->create()->user());
   }
 
   #[Test]
   public function remove_password() {
-    $this->assertEquals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
+    Assert::equals(null, (new URI('http://test:secret@example.com'))->using()->password(null)->create()->password());
   }
 
   #[Test]
   public function removing_last_param_also_removes_question_mark() {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com/',
       (string)(new URI('http://example.com/?ticket=ABC'))->using()->param('ticket', null)->create()
     );
@@ -177,7 +177,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function removing_all_params_also_removes_question_mark() {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com/',
       (string)(new URI('http://example.com/?ticket=ABC'))->using()->params([])->create()
     );
@@ -185,7 +185,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function removing_fragment_also_removes_hash() {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com/',
       (string)(new URI('http://example.com/#top'))->using()->fragment(null)->create()
     );
@@ -193,7 +193,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test]
   public function removing_path() {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com',
       (string)(new URI('http://example.com/test'))->using()->path(null)->create()
     );
@@ -201,7 +201,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(['/', '/test', '/test/child'])]
   public function path($path) {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com'.$path,
       (string)(new URI('http://example.com/'))->using()->path($path)->create()
     );
@@ -209,7 +209,7 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values([[[], ''], [['/test'], '/test'], [['/test/'], '/test/'], [['/test', 'child/'], '/test/child/'], [['/test', 'child'], '/test/child'], [['/test/', 'child'], '/test/child'], [['/test//', 'child'], '/test/child'], [['/test', '/child'], '/test/child'], [['/test/', '/child'], '/test/child'], [['/test/', '//child'], '/test/child'], [['/test//', '//child'], '/test/child'], [['/test', 'child', 'sub'], '/test/child/sub'],])]
   public function combining_path($paths, $expected) {
-    $this->assertEquals(
+    Assert::equals(
       'http://example.com'.$expected,
       (string)(new URI('http://example.com'))->using()->path($paths)->create()
     );
@@ -217,16 +217,16 @@ class URICreationTest extends \unittest\TestCase {
 
   #[Test, Values(['https://example.com/login?service=http%3A%2F%2Flocalhost', 'https://example.com/login?service=http%3A%2F%2Flocalhost%2F%3Fservice%3D%2521ncoded',])]
   public function encoded_params_are_passed_through($uri) {
-    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+    Assert::equals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
 
   #[Test, Values(['https://example.com/%21ncoded', 'https://example.com/%2521ncoded',])]
   public function encoded_paths_are_passed_through($uri) {
-    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+    Assert::equals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
 
   #[Test, Values(['https://example.com/#%21ncoded', 'https://example.com/#%2521ncoded',])]
   public function encoded_fragments_are_passed_through($uri) {
-    $this->assertEquals(new URI($uri), (new Creation(new URI($uri)))->create());
+    Assert::equals(new URI($uri), (new Creation(new URI($uri)))->create());
   }
 }

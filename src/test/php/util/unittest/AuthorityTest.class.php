@@ -1,10 +1,10 @@
 <?php namespace util\unittest;
 
 use lang\FormatException;
-use unittest\{Expect, Test, TestCase, Values};
+use unittest\{Assert, Expect, Test, Values};
 use util\{Authority, Secret};
 
-class AuthorityTest extends TestCase {
+class AuthorityTest {
 
   /** @return iterable */
   private function hosts() {
@@ -20,62 +20,62 @@ class AuthorityTest extends TestCase {
 
   #[Test]
   public function host() {
-    $this->assertEquals('example.com', (new Authority('example.com'))->host());
+    Assert::equals('example.com', (new Authority('example.com'))->host());
   }
 
   #[Test]
   public function port() {
-    $this->assertEquals(80, (new Authority('example.com', 80))->port());
+    Assert::equals(80, (new Authority('example.com', 80))->port());
   }
 
   #[Test]
   public function port_defaults_to_null() {
-    $this->assertNull((new Authority('example.com'))->port());
+    Assert::null((new Authority('example.com'))->port());
   }
 
   #[Test]
   public function user() {
-    $this->assertEquals('test', (new Authority('example.com', 80, 'test'))->user());
+    Assert::equals('test', (new Authority('example.com', 80, 'test'))->user());
   }
 
   #[Test]
   public function user_defaults_to_null() {
-    $this->assertNull((new Authority('example.com'))->user());
+    Assert::null((new Authority('example.com'))->user());
   }
 
   #[Test, Values(eval: '[["secret"], [new Secret("secret")]]')]
   public function password($password) {
-    $this->assertEquals('secret', (new Authority('example.com', 80, 'test', $password))->password()->reveal());
+    Assert::equals('secret', (new Authority('example.com', 80, 'test', $password))->password()->reveal());
   }
 
   #[Test]
   public function password_defaults_to_null() {
-    $this->assertNull((new Authority('example.com'))->password());
+    Assert::null((new Authority('example.com'))->password());
   }
 
   #[Test, Values('hosts')]
   public function parse_host_only($host) {
-    $this->assertEquals(new Authority($host), Authority::parse($host));
+    Assert::equals(new Authority($host), Authority::parse($host));
   }
 
   #[Test, Values('hosts')]
   public function parse_host_and_port($host) {
-    $this->assertEquals(new Authority($host, 443), Authority::parse($host.':443'));
+    Assert::equals(new Authority($host, 443), Authority::parse($host.':443'));
   }
 
   #[Test, Values('hosts')]
   public function parse_host_and_user($host) {
-    $this->assertEquals(new Authority($host, null, 'test'), Authority::parse('test@'.$host));
+    Assert::equals(new Authority($host, null, 'test'), Authority::parse('test@'.$host));
   }
 
   #[Test, Values('hosts')]
   public function parse_host_and_credentials($host) {
-    $this->assertEquals(new Authority($host, null, 'test', 'secret'), Authority::parse('test:secret@'.$host));
+    Assert::equals(new Authority($host, null, 'test', 'secret'), Authority::parse('test:secret@'.$host));
   }
 
   #[Test, Values('hosts')]
   public function parse_urlencoded_credentials($host) {
-    $this->assertEquals(new Authority($host, null, '@test:', 'sec ret'), Authority::parse('%40test%3A:sec%20ret@'.$host));
+    Assert::equals(new Authority($host, null, '@test:', 'sec ret'), Authority::parse('%40test%3A:sec%20ret@'.$host));
   }
 
   #[Test, Expect(FormatException::class)]
@@ -90,7 +90,7 @@ class AuthorityTest extends TestCase {
 
   #[Test]
   public function password_hidden_in_as_string() {
-    $this->assertEquals(
+    Assert::equals(
       'user:********@example.com',
       Authority::parse('user:password@example.com')->asString(false)
     );
@@ -98,7 +98,7 @@ class AuthorityTest extends TestCase {
 
   #[Test]
   public function reveal_password_in_as_string() {
-    $this->assertEquals(
+    Assert::equals(
       'user:password@example.com',
       Authority::parse('user:password@example.com')->asString(true)
     );
@@ -106,7 +106,7 @@ class AuthorityTest extends TestCase {
 
   #[Test]
   public function password_included_in_string_cast() {
-    $this->assertEquals(
+    Assert::equals(
       'user:password@example.com',
       (string)Authority::parse('user:password@example.com')
     );
@@ -114,7 +114,7 @@ class AuthorityTest extends TestCase {
 
   #[Test]
   public function password_hidden_in_to_string() {
-    $this->assertEquals(
+    Assert::equals(
       'util.Authority<user:********@example.com>',
       Authority::parse('user:password@example.com')->toString()
     );

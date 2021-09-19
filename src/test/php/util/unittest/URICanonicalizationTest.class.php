@@ -1,10 +1,10 @@
 <?php namespace util\unittest;
 
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 use util\URI;
 use util\uri\Canonicalization;
 
-class URICanonicalizationTest extends \unittest\TestCase {
+class URICanonicalizationTest {
 
   /**
    * Assertion helper
@@ -14,7 +14,7 @@ class URICanonicalizationTest extends \unittest\TestCase {
    * @throws unittest.AssertionFailedError
    */
   private function assertCanonical($expected, $input) {
-    $this->assertEquals(new URI($expected), (new Canonicalization())->canonicalize(new URI($input)));
+    Assert::equals(new URI($expected), (new Canonicalization())->canonicalize(new URI($input)));
   }
 
   #[Test]
