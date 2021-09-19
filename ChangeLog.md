@@ -3,6 +3,13 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.3 / 2021-09-19
+
+* Fixed issue #6: Invalid characters: `new URI('http://example/über')`
+  now yields `/%C3%BCber` as path and is consistent with the JavaScript
+  *URL* class in doing so. Also applies for query string and fragment.
+  (@thekid)
+
 ## 2.1.2 / 2021-08-29
 
 * Fixed PHP 8.1 warnings for `IteratorAggregate` interface compatibility
