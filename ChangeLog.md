@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.1.4 / 2021-10-21
+
+* Made library compatible with XP 11 - @thekid
+
 ## 2.1.3 / 2021-09-19
 
 * Fixed issue #6: Invalid characters: `new URI('http://example/über')`
