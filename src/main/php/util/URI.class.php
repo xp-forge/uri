@@ -192,6 +192,28 @@ class URI implements Value {
   public function password() { return $this->authority ? $this->authority->password() : null; }
 
   /**
+   * Returns the base URI. For opaque URIs, this is the scheme and the path;
+   * for hierarchical URIs, this is the scheme and authority:
+   *
+   * - `mailto:test@example.com?subject=Test` -> `mailto:test@example.com`
+   * - `http://localhost:443/test?of=example` -> `http://localhost:443`
+   *
+   * @return self
+   * @throws lang.IllegalStateException for relative URIs
+   */
+  public function base() {
+    if (null === $this->scheme) {
+      throw new IllegalStateException('Relative URIs do not have a base');
+    }
+
+    $base= clone $this;
+    $base->authority && $base->path= null;
+    $base->query= null;
+    $base->fragment= null;
+    return $base;
+  }
+
+  /**
    * Gets path, decoding it by default
    *
    * @param  bool $decode
@@ -223,6 +245,34 @@ class URI implements Value {
 
   /** @return self */
   public function canonicalize() { return (new Canonicalization())->canonicalize($this); }
+
+  /**
+   * Returns a copy of this URI without authentication information
+   *
+   * @return self
+   */
+  public function anonymous() {
+    $clone= clone $this;
+    if ($this->authority) {
+      $clone->authority= new Authority($this->authority->host(), $this->authority->port());
+    }
+    return $clone;
+  }
+
+  /**
+   * Returns a copy of this URI with the given authentication information
+   *
+   * @param  string $user
+   * @param  ?string|util.Secret $password
+   * @return self
+   */
+  public function authenticated($user, $password= null) {
+    $clone= clone $this;
+    if ($this->authority) {
+      $clone->authority= new Authority($this->authority->host(), $this->authority->port(), $user, $password);
+    }
+    return $clone;
+  }
 
   /** @return util.uri.Parameters */
   public function params() {
