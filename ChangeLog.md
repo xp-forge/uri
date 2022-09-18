@@ -3,6 +3,13 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.2.0 / 2022-09-18
+
+* Merged PR #8: Add `util.URI::base()` method. For opaque URIs, this is
+  the scheme and the path; for hierarchical URIs, this is the scheme and
+  authority; for relative URIs, an exception is raised.
+  (@thekid)
+
 ## 2.1.4 / 2021-10-21
 
 * Made library compatible with XP 11 - @thekid
