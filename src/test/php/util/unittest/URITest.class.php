@@ -94,6 +94,21 @@ class URITest {
     Assert::equals(8080, (new URI('http://example.com:8080'))->port());
   }
 
+  #[Test, Values('hierarchicalUris')]
+  public function hierarchical_base($uri) {
+    Assert::equals($uri->using()->path(null)->query(null)->create(), $uri->base());
+  }
+
+  #[Test, Values('opaqueUris')]
+  public function opaque_base($uri) {
+    Assert::equals($uri->using()->query(null)->create(), $uri->base());
+  }
+
+  #[Test, Expect(IllegalStateException::class), Values('relativeUris')]
+  public function relative_base($uri) {
+    $uri->base();
+  }
+
   #[Test]
   public function without_path() {
     Assert::equals(null, (new URI('http://example.com'))->path());
@@ -434,5 +449,15 @@ class URITest {
   #[Test, Expect(IllegalStateException::class), Values(['http://example.com', 'tel:+1-816-555-1212'])]
   public function not_representable_as_path($uri) {
     (new URI($uri))->asPath();
+  }
+
+  #[Test, Values(['http://user:pass@example.com/', 'http://user@example.com/', 'http://example.com/'])]
+  public function anonymous($input) {
+    Assert::equals(new URI('http://example.com/'), (new URI($input))->anonymous());
+  }
+
+  #[Test, Values(['http://example.com/', 'http://user@example.com/', 'http://user:pass@example.com/'])]
+  public function authenticated($input) {
+    Assert::equals(new URI('http://test:secret@example.com/'), (new URI($input))->authenticated('test', 'secret'));
   }
 }
