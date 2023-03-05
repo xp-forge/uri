@@ -1,7 +1,7 @@
 <?php namespace util\unittest;
 
 use lang\FormatException;
-use unittest\{Assert, Expect, Test, Values};
+use test\{Assert, Expect, Test, Values};
 use util\{Authority, Secret};
 
 class AuthorityTest {
@@ -53,27 +53,27 @@ class AuthorityTest {
     Assert::null((new Authority('example.com'))->password());
   }
 
-  #[Test, Values('hosts')]
+  #[Test, Values(from: 'hosts')]
   public function parse_host_only($host) {
     Assert::equals(new Authority($host), Authority::parse($host));
   }
 
-  #[Test, Values('hosts')]
+  #[Test, Values(from: 'hosts')]
   public function parse_host_and_port($host) {
     Assert::equals(new Authority($host, 443), Authority::parse($host.':443'));
   }
 
-  #[Test, Values('hosts')]
+  #[Test, Values(from: 'hosts')]
   public function parse_host_and_user($host) {
     Assert::equals(new Authority($host, null, 'test'), Authority::parse('test@'.$host));
   }
 
-  #[Test, Values('hosts')]
+  #[Test, Values(from: 'hosts')]
   public function parse_host_and_credentials($host) {
     Assert::equals(new Authority($host, null, 'test', 'secret'), Authority::parse('test:secret@'.$host));
   }
 
-  #[Test, Values('hosts')]
+  #[Test, Values(from: 'hosts')]
   public function parse_urlencoded_credentials($host) {
     Assert::equals(new Authority($host, null, '@test:', 'sec ret'), Authority::parse('%40test%3A:sec%20ret@'.$host));
   }

@@ -2,7 +2,7 @@
 
 use io\Path;
 use lang\{FormatException, IllegalStateException, Primitive};
-use unittest\{Assert, Expect, Test, Values};
+use test\{Assert, Expect, Test, Values};
 use util\{Authority, URI};
 
 class URITest {
@@ -34,27 +34,27 @@ class URITest {
     yield [new URI('../:p:/s/parent')];
   }
 
-  #[Test, Values('opaqueUris')]
+  #[Test, Values(from: 'opaqueUris')]
   public function opaque_uris($uri) {
     Assert::equals([true, false], [$uri->isOpaque(), $uri->isRelative()]);
   }
 
-  #[Test, Values('hierarchicalUris')]
+  #[Test, Values(from: 'hierarchicalUris')]
   public function hierarchical_uris($uri) {
     Assert::equals([false, false], [$uri->isOpaque(), $uri->isRelative()]);
   }
 
-  #[Test, Values('relativeUris')]
+  #[Test, Values(from: 'relativeUris')]
   public function relative_uris($uri) {
     Assert::true($uri->isRelative());
   }
 
-  #[Test, Values('opaqueUris')]
+  #[Test, Values(from: 'opaqueUris')]
   public function opaque_uris_have_no_authority($uri) {
     Assert::null($uri->authority());
   }
 
-  #[Test, Values('hierarchicalUris')]
+  #[Test, Values(from: 'hierarchicalUris')]
   public function hierarchical_uris_have_authority($uri) {
     Assert::instance(Authority::class, $uri->authority());
   }
@@ -94,17 +94,17 @@ class URITest {
     Assert::equals(8080, (new URI('http://example.com:8080'))->port());
   }
 
-  #[Test, Values('hierarchicalUris')]
+  #[Test, Values(from: 'hierarchicalUris')]
   public function hierarchical_base($uri) {
     Assert::equals($uri->using()->path(null)->query(null)->create(), $uri->base());
   }
 
-  #[Test, Values('opaqueUris')]
+  #[Test, Values(from: 'opaqueUris')]
   public function opaque_base($uri) {
     Assert::equals($uri->using()->query(null)->create(), $uri->base());
   }
 
-  #[Test, Expect(IllegalStateException::class), Values('relativeUris')]
+  #[Test, Expect(IllegalStateException::class), Values(from: 'relativeUris')]
   public function relative_base($uri) {
     $uri->base();
   }
@@ -319,12 +319,12 @@ class URITest {
     new URI('');
   }
 
-  #[Test, Expect(['class' => FormatException::class, 'withMessage' => '/Scheme .+ malformed/']), Values(['://example.com', '0://example.com', '-://example.com', '+://example.com', '.://example.com', '0http://example.com', '-http://example.com', '+http://example.com', '.http://example.com', 'http\\://example.com', 'http$://example.com', '1234://example.com', 'mailto!:test@example.com'])]
+  #[Test, Expect(class: FormatException::class, message: '/Scheme .+ malformed/'), Values(['://example.com', '0://example.com', '-://example.com', '+://example.com', '.://example.com', '0http://example.com', '-http://example.com', '+http://example.com', '.http://example.com', 'http\\://example.com', 'http$://example.com', '1234://example.com', 'mailto!:test@example.com'])]
   public function malformed_scheme($arg) {
     new URI($arg);
   }
 
-  #[Test, Expect(['class' => FormatException::class, 'withMessage' => '/Authority .+ malformed/']), Values(['http://user:', 'http://user@', 'http://user:password@', 'http://user@:8080', 'http://:8080', 'http://:foo', 'http://:123foo', 'http://:foo123', 'http://example.com:foo', 'http://example.com:123foo', 'http://example.com:foo123', 'http://example$'])]
+  #[Test, Expect(class: FormatException::class, message: '/Authority .+ malformed/'), Values(['http://user:', 'http://user@', 'http://user:password@', 'http://user@:8080', 'http://:8080', 'http://:foo', 'http://:123foo', 'http://:foo123', 'http://example.com:foo', 'http://example.com:123foo', 'http://example.com:foo123', 'http://example$'])]
   public function malformed_authority($arg) {
     new URI($arg);
   }
@@ -391,7 +391,7 @@ class URITest {
     yield [new URI('http://localhost/ui@2.8.7/style.css'), './icons.woff', new URI('http://localhost/ui@2.8.7/icons.woff')];
   }
 
-  #[Test, Values('resolvables')]
+  #[Test, Values(from: 'resolvables')]
   public function resolve($uri, $resolve, $result) {
     Assert::equals($result, $uri->resolve($resolve));
   }
