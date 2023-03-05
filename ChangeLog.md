@@ -3,6 +3,8 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #9: Migrate to new testing library - @thekid
+
 ## 2.2.0 / 2022-09-18
 
 * Merged PR #8: Add `util.URI::base()` method. For opaque URIs, this is
