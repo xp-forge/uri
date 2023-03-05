@@ -1,7 +1,7 @@
 <?php namespace util\unittest;
 
 use lang\FormatException;
-use unittest\{Assert, Expect, Test, Values};
+use test\{Assert, Expect, Test, Values};
 use util\uri\Parameters;
 
 class URIParametersTest {
@@ -26,17 +26,17 @@ class URIParametersTest {
     yield ['a[b][c]=d&a[b][e]=f', ['a' => ['b' => ['c' => 'd', 'e' => 'f']]]];
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function size($input, $expected) {
     Assert::equals(sizeof($expected), (new Parameters($input))->size());
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function pairs($input, $expected) {
     Assert::equals($expected, (new Parameters($input))->pairs());
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function iterable($input, $expected) {
     Assert::equals($expected, iterator_to_array(new Parameters($input)));
   }
@@ -84,7 +84,7 @@ class URIParametersTest {
     );
   }
 
-  #[Test, Values('fixtures')]
+  #[Test, Values(from: 'fixtures')]
   public function string_representation_equals_input($input) {
     Assert::equals($input, (string)new Parameters($input));
   }
