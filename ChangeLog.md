@@ -3,6 +3,7 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.4 to the test matrix - @thekid
 * Merged PR #9: Migrate to new testing library - @thekid
 
 ## 2.2.0 / 2022-09-18
