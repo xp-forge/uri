@@ -3,6 +3,10 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 2.3.0 / 2024-03-24
+
+* Made compatible with XP 12 - @thekid
+
 * Added PHP 8.4 to the test matrix - @thekid
 * Merged PR #9: Migrate to new testing library - @thekid
 
