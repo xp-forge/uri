@@ -3,10 +3,14 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 3.0.0 / 2024-03-25
+
+* Dropped PHP 7.0 - 7.3, see xp-framework/rfc#343 - @thekid
+* Dropped support for XP <= 9 , see xp-framework/rfc#341 - @thekid
+
 ## 2.3.0 / 2024-03-24
 
 * Made compatible with XP 12 - @thekid
-
 * Added PHP 8.4 to the test matrix - @thekid
 * Merged PR #9: Migrate to new testing library - @thekid
 
