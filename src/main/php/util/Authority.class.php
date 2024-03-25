@@ -9,9 +9,9 @@ use lang\{FormatException, Value};
  * authority   = [ userinfo "@" ] host [ ":" port ]
  * ```
  * 
- * @see   xp://util.URI#authority
+ * @see   util.URI::authority
  * @see   https://tools.ietf.org/html/rfc3986#section-3.2
- * @test  xp://net.xp_framework.unittest.util.AuthorityTest
+ * @test  util.unittest.AuthorityTest
  */
 class Authority implements Value {
   public static $EMPTY;

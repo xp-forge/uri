@@ -10,7 +10,7 @@ use util\{Objects, URI};
  * @see   http://php.net/urldecode
  * @see   http://php.net/urlencode
  * @see   https://en.wikipedia.org/wiki/Query_string#URL_encoding
- * @test  xp://util.unittest.URIParametersTest
+ * @test  util.unittest.URIParametersTest
  */
 class Parameters implements Value, IteratorAggregate {
   private $pairs= [];

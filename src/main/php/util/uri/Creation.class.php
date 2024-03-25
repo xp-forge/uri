@@ -6,9 +6,9 @@ use util\{Authority, Secret, URI};
 /**
  * Creates URI instances 
  *
- * @see   xp://util.URI#using
- * @see   xp://util.URI#with
- * @test  xp://net.xp_framework.unittest.util.URICreationTest
+ * @see   util.URI::using
+ * @see   util.URI::with
+ * @test  util.unittest.URICreationTest
  */
 class Creation {
   public $scheme     = null;

@@ -23,7 +23,7 @@ use util\uri\{Canonicalization, Creation, Parameters};
  *
  * @see   https://tools.ietf.org/html/rfc3986
  * @see   http://stackoverflow.com/questions/1546419/convert-file-path-to-a-file-uri
- * @test  xp://net.xp_framework.unittest.util.URITest
+ * @test  util.unittest.URITest
  */
 class URI implements Value {
   private $scheme, $authority, $path, $query, $fragment;

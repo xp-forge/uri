@@ -5,7 +5,7 @@ use util\{Authority, URI};
 /**
  * Canonicalizes URIs
  *
- * @test  xp://net.xp_framework.unittest.util.URICanonicalizationTest
+ * @test  util.unittest.URICanonicalizationTest
  * @see   https://en.wikipedia.org/wiki/URL_normalization
  */
 class Canonicalization {
@@ -47,7 +47,7 @@ class Canonicalization {
    * Path canonicalization normalizes escape sequences, replaces multiple
    * consecutive forward slashes by a single one and removes dot segments.
    *
-   * @see    xp://util.uri.Canonicalization::normalize
+   * @see    util.uri.Canonicalization::normalize
    * @see    https://tools.ietf.org/html/rfc3986#section-5.2.4
    * @param  string $path
    * @return string
