@@ -26,9 +26,9 @@ class Authority implements Value {
    * Creates a new authority
    *
    * @param  string $host
-   * @param  int $port
-   * @param  string $user
-   * @param  string|util.Secret $password
+   * @param  ?int $port
+   * @param  ?string $user
+   * @param  ?string|util.Secret $password
    */
   public function __construct($host, $port= null, $user= null, $password= null) {
     $this->host= $host;
@@ -67,13 +67,13 @@ class Authority implements Value {
   /** @return string */
   public function host() { return $this->host; }
 
-  /** @return int */
+  /** @return ?int */
   public function port() { return $this->port; }
 
-  /** @return string */
+  /** @return ?string */
   public function user() { return $this->user; }
 
-  /** @return util.Secret */
+  /** @return ?util.Secret */
   public function password() { return $this->password; }
 
   /**

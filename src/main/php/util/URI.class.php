@@ -179,16 +179,16 @@ class URI implements Value {
   /** @return util.Authority */
   public function authority() { return $this->authority; }
 
-  /** @return string */
+  /** @return ?string */
   public function host() { return $this->authority ? $this->authority->host() : null; }
 
-  /** @return int */
+  /** @return ?int */
   public function port() { return $this->authority ? $this->authority->port() : null; }
 
-  /** @return string */
+  /** @return ?string */
   public function user() { return $this->authority ? $this->authority->user() : null; }
 
-  /** @return util.Secret */
+  /** @return ?util.Secret */
   public function password() { return $this->authority ? $this->authority->password() : null; }
 
   /**
