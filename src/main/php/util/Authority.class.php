@@ -116,12 +116,6 @@ class Authority implements Value {
    * @return int
    */
   public function compareTo($value) {
-    if ($value instanceof self) {
-      $a= $this->asString(true);
-      $b= $value->asString(true);
-      return $a === $b ? 0 : ($a < $b ? -1 : 1);
-    } else {
-      return 1;
-    }
+    return $value instanceof self ? $this->asString(true) <=> $value->asString(true) : 1;
   }
 }
