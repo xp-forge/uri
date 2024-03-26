@@ -3,7 +3,7 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
-## 3.0.0 / 2024-03-25
+## 3.0.0 / 2024-03-26
 
 * Dropped PHP 7.0 - 7.3, see xp-framework/rfc#343 - @thekid
 * Dropped support for XP <= 9 , see xp-framework/rfc#341 - @thekid
