@@ -41,9 +41,10 @@ $uri->user();         // "user"
 $uri->password();     // util.Secret("password")
 $uri->path();         // "index"
 $uri->query();        // "sort=name"
-$uri->params();       // util.URIParameters("sort=name")
+$uri->params();       // util.uri.Parameters("sort=name")
 $uri->param('sort');  // "name"
 $uri->fragment();     // "top"
+$uri->resource();     // "/index?sort=name#top"
 ```
 
 ### Creating or modifying
