@@ -243,6 +243,19 @@ class URI implements Value {
     return null === $this->fragment || !$decode ? $this->fragment : urldecode($this->fragment);
   }
 
+  /**
+   * Gets resource (`path [ "?" query ] [ "#" fragment ]`), decoding it by default
+   *
+   * @param  bool $decode
+   * @return string
+   */
+  public function resource($decode= true) {
+    $resource= null === $this->path ? '/' : $this->path($decode);
+    null === $this->query || '' === $this->query || $resource.= '?'.$this->query($decode);
+    null === $this->fragment || '' === $this->fragment || $resource.= '#'.$this->fragment($decode);
+    return $resource;
+  }
+
   /** @return self */
   public function canonicalize() { return (new Canonicalization())->canonicalize($this); }
 

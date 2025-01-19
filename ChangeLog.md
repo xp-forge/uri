@@ -3,6 +3,12 @@ URI handling change log
 
 ## ?.?.? / ????-??-??
 
+## 3.1.0 / 2025-01-19
+
+* Implemented feature suggested in #10: an accessor for the resource part
+  of the URI (`path [ "?" query ] [ "#" fragment ]`).
+  (@thekid)
+
 ## 3.0.0 / 2024-03-26
 
 * Dropped PHP 7.0 - 7.3, see xp-framework/rfc#343 - @thekid

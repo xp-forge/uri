@@ -34,6 +34,24 @@ class URITest {
     yield [new URI('../:p:/s/parent')];
   }
 
+  /** @return iterable */
+  private function resources() {
+    yield ['', '/'];
+    yield ['/', '/'];
+    yield ['/#', '/'];
+    yield ['/?', '/'];
+    yield ['?test', '/?test'];
+    yield ['#top', '/#top'];
+    yield ['/?test', '/?test'];
+    yield ['/#top', '/#top'];
+    yield ['/search', '/search'];
+    yield ['/search?', '/search'];
+    yield ['/search#', '/search'];
+    yield ['/search?q=Test', '/search?q=Test'];
+    yield ['/search#results', '/search#results'];
+    yield ['/search?q=Test#results', '/search?q=Test#results'];
+  }
+
   #[Test, Values(from: 'opaqueUris')]
   public function opaque_uris($uri) {
     Assert::equals([true, false], [$uri->isOpaque(), $uri->isRelative()]);
@@ -147,6 +165,11 @@ class URITest {
   #[Test]
   public function file_url_path() {
     Assert::equals('/usr/local/etc/php.ini', (new URI('file:///usr/local/etc/php.ini'))->path());
+  }
+
+  #[Test, Values(from: 'resources')]
+  public function resource($relative, $expected) {
+    Assert::equals($expected, (new URI('//example.com'.$relative))->resource());
   }
 
   #[Test, Values(['http://api@example.com', 'http://api:secret@example.com', 'http://api:secret@example.com:8080',])]
